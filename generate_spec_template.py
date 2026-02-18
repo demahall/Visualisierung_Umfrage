@@ -23,7 +23,7 @@ from typing import Any, Dict, List, Optional, Tuple
 import pandas as pd
 
 
-EXCEL_PATH = Path("Umfrage_Ergebnis.xlsx")
+EXCEL_PATH = Path("result-survey.xlsx")
 FIRST_QUESTION_TEXT = "Welcher Art von Organisation gehören Sie an?"
 OUT_PATH = Path("question_spec.json")
 

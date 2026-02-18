@@ -485,8 +485,8 @@ def prepare_data(
     df_q = df_raw.iloc[:, start_idx:].copy()
 
     # normalize values
-    df_q = df_q.applymap(normalize_str)
-    df_q = df_q.applymap(normalize_yes_no)
+    df_q = df_q.map(normalize_str)
+    df_q = df_q.map(normalize_yes_no)
 
     # respondent id
     df_q["respondent_id"] = np.arange(1, len(df_q) + 1)
