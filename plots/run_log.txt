@@ -1,0 +1,65 @@
+Run started: 2026-02-16 00:25:49
+Log file: C:\Users\Danil Almahalli\plots\run_log.txt
+------------------------------------------------------------------------------------------
+Excel: C:\Users\Danil Almahalli\PycharmProjects\Visualisierung_Umfrage\result-survey.xlsx
+Spec:  C:\Users\Danil Almahalli\PycharmProjects\Visualisierung_Umfrage\question_spec.json
+Output:C:\Users\Danil Almahalli\plots
+Catalog entries: 43
+
+=== PLOTTING QUESTIONS ===
+[OK]          | Abbildung 1 | type=single | plot= | saved=1 | 01_Welcher_Art_von_Organisation_gehören_Sie_an_.png
+[OK]          | Abbildung 2 | type=single | plot=donut | saved=1 | 02_Wie_viele_Beschäftigte_hat_Ihr_Unternehmen_.png
+[OK]          | Abbildung 3 | type=single | plot=donut | saved=1 | 03_Wie_hoch_ist_der_jährliche_Umsatz_Ihres_Unternehmens_.png
+[OK]          | Abbildung 4 | type=checkbox | plot= | saved=1 | 04_In_welcher_Branche_ordnen_Sie_Ihre_Tätigkeit_ein_.png
+[OK]          | Abbildung 5 | type=single | plot= | saved=1 | 05_Welche_Position_haben_Sie_im_Unternehmen_.png
+[OK]          | Abbildung 6 | type=single | plot= | saved=1 | 06_Wie_ist_die_Fertigung_in_Ihrem_Tätigkeitsfeld_organisiert_.png
+[OK]          | Abbildung 7 | type=single | plot=donut | saved=1 | 07_Wie_ordnen_Sie_die_monatliche_Stückzahl_Ihrer_Fertigung_ein_.png
+[OK]          | Abbildung 8 | type=single | plot=donut | saved=1 | 08_Wie_wird_sich_aus_Ihrer_Sicht_die_Produktion_in_Deutschland_.png
+[OK]          | Abbildung 9 | type=single | plot=donut | saved=1 | 09_Wie_wird_sich_aus_Ihrer_Sicht_der_Personalbestand_in_Ihrem_T.png
+[OK]          | Abbildung 10 | type=single | plot=donut | saved=1 | 10_Wo_wird_von_Ihrem_Unternehmen_in_Ihrem_Tätigkeitsfeld_zukünf.png
+[OK]          | Abbildung 11 | type=single | plot=donut | saved=1 | 11_Wird_in_Ihrem_Unternehmen_Kreislaufwirtschaft_bereits_umgese.png
+[OK]          | Abbildung 12 | type=likert | plot= | saved=1 | 12_Wie_schätzen_Sie_Ihre_Kenntnisse_im_Themenfeld_der_Kreislauf.png
+[OK]          | Abbildung 13 | type=matrix | plot= | saved=1 | 13_Welche_der_nachfolgend_aufgeführten_Punkte_sind_für_Ihr_Unte.png
+[OK]          | Abbildung 14 | type=matrix | plot= | saved=1 | 14_Sind_die_folgenden_Aspekte_in_Ihrem_Unternehmen_im_Bereich_d.png
+[OK]          | Abbildung 15 | type=single | plot= | saved=1 | 15_Handelt_es_sich_bei_den_rückgeführten_Produkten_um_Produkte_.png
+[OK]          | Abbildung 16 | type=single | plot= | saved=1 | 16_Wie_wird_derzeit_in_Ihrem_Unternehmen_überwiegend_mit_Teilen.png
+[SKIP text]   | Abbildung 17 | Welche Produkte werden aktuell oder künftig wiederaufbereitet und wo liegt deren Wert typischerweise?
+[OK]          | Abbildung 18 | type=matrix | plot=donut | saved=1 | 18_Bitte_bewerten_Sie__inwieweit_Daten_in_Ihrem_Unernehmen_erfa.png
+[OK]          | Abbildung 19 | type=matrix | plot=donut | saved=1 | 19_Welche_der_nachfolgenden_Industrie_4_0-Technologien_werden_d.png
+[SKIP text]   | Abbildung 20 | Weitere Technologie:
+[SKIP text]   | Abbildung 21 | Weitere Technologie:.1
+[OK]          | Abbildung 22 | type=matrix | plot=donut | saved=1 | 22_Auf_welcher_kleinsten_Ebene_wird_der_Einsatz_der_folgenden_E.png
+[OK]          | Abbildung 23 | type=matrix | plot=donut | saved=1 | 23_Auf_welcher_kleinsten_Ebene_werden_Verbrauchsmaterialien__Be.png
+[OK]          | Abbildung 24 | type=matrix | plot= | saved=1 | 24_Stimmen_Sie_nachfolgenden_Aussagen_zur_Digitalisierung_und_Q.png
+[OK]          | Abbildung 25 | type=matrix | plot= | saved=1 | 25_Stimmen_Sie_nachfolgenden_Aspekten_im_Kontext_des_Produktdes.png
+[OK]          | Abbildung 26 | type=matrix | plot= | saved=1 | 26_Stimmen_Sie_nachfolgenden_Aspekten_im_Kontext_der__Rückführu.png
+[OK]          | Abbildung 27 | type=matrix | plot= | saved=1 | 27_Stimmen_Sie_nachfolgenden_Aspekten_im_Bereich_der_Demontage_.png
+[OK]          | Abbildung 28 | type=likert | plot=donut | saved=1 | 28_Welche_der_nachfolgenden_Nutzenpotenziale_erachten_Sie_als_e.png
+[SKIP text]   | Abbildung 29 | Weiteres Nutzenpotenzial:
+[OK]          | Abbildung 30 | type=single | plot= | saved=1 | 30_Welche_Erfahrungen_hat_Ihr_Unternehmen_mit_der_Zahlungsberei.png
+[OK]          | Abbildung 31 | type=matrix_single | plot=donut | saved=1 | 31_Welche_der_nachfolgenden_Industrie_4_0-Technologien_generier.png
+[OK]          | Abbildung 32 | type=single | plot= | saved=1 | 32_In_welchen_Lebenszyklusphasen_bzw__Elementen_des_zirkulären_.png
+[SKIP text]   | Abbildung 33 | Welche konkreten Mehrwerte versprechen Sie sich durch den Einsatz von Industrie 4.0-Technologien?
+[OK]          | Abbildung 34 | type=matrix | plot=donut | saved=1 | 34_In_welchem_Maß_stellen_die_folgenden_Punkte_ein_Hemmnis_für_.png
+[OK]          | Abbildung 35 | type=matrix | plot=donut | saved=1 | 35_Inwieweit_stimmen_Sie_folgenden_Aussagen_zur_Umsetzung_von_K.png
+[OK]          | Abbildung 36 | type=matrix | plot=donut | saved=1 | 36_In_welchen_Lebenszyklusphasen_bzw__Elementen_des_zirkulären_.png
+[OK]          | Abbildung 37 | type=single | plot= | saved=1 | 37_Haben_Sie_Interesse__an_öffentlich_geförderten_Forschungspro.png
+[OK]          | Abbildung 38 | type=checkbox | plot= | saved=1 | 38_Bitte_spezifizieren_Sie_den_oder_die_Fördermittelträger_des_.png
+[OK]          | Abbildung 39 | type=checkbox | plot= | saved=1 | 39_In_welchen_Bereichen_sehen_Sie_Verbesserungspotenzial_bei_öf.png
+[OK]          | Abbildung 40 | type=matrix | plot=donut | saved=1 | 40_Wie_bewerten_Sie_die_Wirksamkeit_der_folgenden_öffentlichen_.png
+[OK]          | Abbildung 41 | type=single | plot=donut | saved=1 | 41_Haben_Sie_Interesse_an_einem_weiterführenden_Gespräch_teilzu.png
+[OK]          | Abbildung 42 | type=single | plot=donut | saved=1 | 42_Haben_Sie_Interesse_an_den_Ergebnissen_dieser_Studie__In_die.png
+[SKIP text]   | Abbildung 43 | Geben Sie bitte Ihre E-Mail-Adresse an, damit wir Sie erreichen können.
+
+=== PLOTTING HYPOTHESES ===
+[OK] Hypotheses plots saved=6
+[OK] Wrote list_of_figures.txt (49 lines)
+
+=== SUMMARY ===
+Questions OK:      37
+Questions skipped: 6
+Questions failed:  0
+Saved plot files:  43
+Output folder:     C:\Users\Danil Almahalli\plots
+------------------------------------------------------------------------------------------
+Run finished: 2026-02-16 00:26:11
