@@ -1,12 +1,30 @@
 import numpy as np
 
-# --- Exakte question_text Strings aus deinem Export! ---
-Q11 = "Wird in Ihrem Unternehmen Kreislaufwirtschaft bereits umgesetzt?"
+
+# --- CONFIG: adjust to your exact column names in df_tidy ---
+COL_ID = "respondent_id"
+
+# --- Allgemeine Frage, die zur Hypothesen verwendet werden! ---
 Q2 = "Wie viele Beschäftigte hat Ihr Unternehmen?"
-Q4 = "In welcher Branche ordnen Sie Ihre Tätigkeit ein?"
+Q3 = "Wie hoch ist der jährliche Umsatz Ihres Unternehmens?"
 Q10 = "Wie ordnen Sie die monatliche Stückzahl Ihrer Fertigung ein?"
 
+Q11 = "Wird in Ihrem Unternehmen Kreislaufwirtschaft bereits umgesetzt?"
+Q4 = "In welcher Branche ordnen Sie Ihre Tätigkeit ein?"
+Q10 = "Wie ordnen Sie die monatliche Stückzahl Ihrer Fertigung ein?"
+Q13 = "Welche der nachfolgend aufgeführten Punkte sind für Ihr Unternehmen zutreffend?"
+Q16 = "Bitte bewerten Sie, inwieweit Daten in Ihrem Unernehmen erfasst und genutzt werden."
+Q17 = "Welche der nachfolgenden Industrie 4.0 - Technologien werden derzeit in Ihrem Unternehmen eingesetzt und welche sind zukünftig in Planung?"
+
+#
+Q20 = "Stimmen Sie nachfolgenden Aussagen zur Digitalisierung und Quantifizierung zirkulärer Wertschöpfungsprozesse zu?"
+ITEM_Q20_1= "In unserem Unternehmen ist die Kennzahlenstruktur (Kaskade) für lineare Produktionsprozesse klar definiert und mit den strategischen Zielen verknüpft."
+
+ITEM_Q20_2 = "Für zirkuläre Prozesse (z.B. Rückführung, Aufbereitung, Remanufacturing) existieren vergleichbare Kennzahlensysteme."
+
+
 # --- Hemmnisse Blöcke
+Q18 = "Bitte bewerten Sie, inwieweit Daten in Ihrem Unernehmen erfasst und genutzt werden."
 Q31 = "In welchem Maß stellen die folgenden Punkte ein Hemmnis für die Umsetzung von Kreislaufwirtschaft in Ihrem Unternehmen dar?"
 Q32 = "Inwieweit stimmen Sie folgenden Aussagen zur Umsetzung von Kreislaufwirtschaft bezogen auf die Wettbewerbsfähigkeit aus der Sicht Ihres Unternehmens zu?"
 Q33 = "In welchen Lebenszyklusphasen bzw. Elementen des zirkulären Wertschöpfungsprozesses sehen Sie die größten Hemmnisse für die Umsetzung zirkulärer Wertschöpfungsprozesse?"
@@ -29,6 +47,18 @@ LIKERT_ZUSTIMMUNG_MAPPING = {
     "Sehr hohe Zustimmung": 5,
     "Keine Antwort": np.nan,
 }
+
+LIKERT_Q16_MAPPING = {
+    "Keine Erfassung": 1,
+    "Manuelle Erfassung, keine Nutzung": 2,
+    "Manuelle Erfassung, manuelle Auswertung": 3,
+    "Automatisierte Erfassung, manuelle Auswertung": 4,
+    "Automatisierte Erfassung, automatisierte Auswertung": 5,
+    "Keine Antwort": np.nan,
+
+}
+
+
 
 
 # H2: Material-cost grouping + sorting + marking
@@ -55,5 +85,6 @@ LOW_COST_INDUSTRIES = {
 STRONG_CATEGORY_HEMMNIS = {"Starkes Hemmnis", "Sehr starkes Hemmnis"}
 STRONG_CATEGORY_ZUSTIMMUNG = {"Hohe Zustimmung ", "Sehr hohe Zustimmung"}
 
-
-JA_NEIN_MAPPING = {"Ja": 1, "Nein": 0}
+#Valid answer list
+VALID_ANSWERS_Q17 = ["Im Einsatz", "In Planung"]
+VALID_ANSWERS_YN = ["Ja", "Nein"]

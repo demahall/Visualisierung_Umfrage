@@ -16,7 +16,7 @@ import matplotlib as mpl
 OUTPUT_DIR = Path("../../plots")
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-SAVE_FORMAT = "png"
+SAVE_FORMAT = "svg"
 SAVE_DPI = 300
 
 # IMPORTANT: keep stable (avoid "tight" layout issues)

@@ -3,280 +3,16 @@ from __future__ import annotations
 
 from pathlib import Path
 from typing import Dict, Any, Optional, Tuple, List, Union
-from matplotlib.colors import to_rgba
 from matplotlib.figure import Figure
-
-import re
 import matplotlib.ticker as mtick
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import textwrap
-
-import hypothesen_CONST
 import src.plotting.plotting_config as cfg
+import src.plotting.plotting_helper as helper
 import string
-import hypothesen_CONST as hyp_const
 
 
-# -----------------------------
-# Helpers
-# -----------------------------
-def make_filename_safe(text: str, max_len: int = 60) -> str:
-    safe = re.sub(r"[^\w\s\-]+", "_", text, flags=re.UNICODE).strip()
-    safe = re.sub(r"\s+", " ", safe)
-    safe = safe.replace(" ", "_")
-    return safe[:max_len]
-def wrap_labels(labels, width=80, max_lines=5):
-    """
-    Wrap long labels into multiple lines.
-    width: max characters per line
-    max_lines: maximum lines before truncating with "…"
-    """
-    wrapped = []
-    for l in labels:
-        lines = textwrap.wrap(str(l), width=width)
-        if len(lines) > max_lines:
-            lines = lines[:max_lines]
-            lines[-1] = lines[-1] + "…"
-        wrapped.append("\n".join(lines))
-    return wrapped
-def _add_legend_on_the_right_side(fig, categories, colors, x=0.90, y_top=0.88, line_h=0.03, fontsize=10):
-    """
-    Draws a legend-like vertical list outside the plot on the right side.
-    """
-    for i, (cat, col) in enumerate(zip(categories, colors)):
-        y = y_top - i * line_h
-
-        # colored square + text
-        fig.text(x, y, "■", color=col, fontsize=fontsize+2, va="center", ha="left")
-        fig.text(x + 0.02, y, str(cat), fontsize=fontsize, va="center", ha="left")
-
-def add_caption(fig: plt.Figure, caption: str) -> None:
-    """
-    Adds a centered bottom caption. Automatically wraps into multiple lines
-    so the text never gets cut.
-    """
-    wrapped = "\n".join(textwrap.wrap(caption, width=cfg.CAPTION_WRAP_WIDTH))
-    fig.text(
-        0.5,
-        cfg.CAPTION_Y,
-        wrapped,
-        ha="center",
-        va="bottom",
-        fontsize=cfg.FONT_CAPTION,
-        linespacing=cfg.CAPTION_LINE_SPACING,
-    )
-def _left_margin_for_labels(labels: list[str], base: float = 0.18, per_char: float = 0.003, cap: float = 0.42) -> float:
-    """
-    Estimate needed left margin based on longest label length.
-    Returns a fraction for fig.subplots_adjust(left=...).
-    """
-    max_len = max((len(str(x)) for x in labels), default=10)
-    return min(cap, max(base, base + per_char * max_len))
-def _save_fig(fig: plt.Figure, out_path: Path) -> None:
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-
-    kwargs = {"dpi": cfg.SAVE_DPI}
-    if cfg.SAVE_BBOX is not None:
-        kwargs["bbox_inches"] = cfg.SAVE_BBOX
-        kwargs["pad_inches"] = cfg.SAVE_PAD_INCHES
-
-    fig.savefig(out_path, **kwargs)
-    plt.close(fig)
-
-
-#-----------------
-#HELPER DONUT CHART
-#-----------------
-
-def _donut_one(ax, labels: List[str], pcts: np.ndarray) -> None:
-    """
-    Draw a donut into an existing axis.
-    - labels: category names
-    - pcts: percentages (sum ~ 100)
-    """
-    colors = [cfg.PALETTE[i % len(cfg.PALETTE)] for i in range(len(labels))]
-
-    # donut
-    wedges, _ = ax.pie(
-        pcts,
-        startangle=90,
-        counterclock=False,
-        colors=colors,
-        wedgeprops=dict(width=0.35, edgecolor="white"),
-    )
-    ax.set_aspect("equal")
-
-    # labels outside with small connector line
-    # (keeps the donut clean)
-    for w, lab, pct in zip(wedges, labels, pcts):
-        if pct <= 0:
-            continue
-
-        ang = (w.theta2 + w.theta1) / 2.0
-        x = np.cos(np.deg2rad(ang))
-        y = np.sin(np.deg2rad(ang))
-
-        # text position outside
-        r_text = 1.25
-        ha = "left" if x >= 0 else "right"
-
-        ax.plot([0.88 * x, 1.10 * x], [0.88 * y, 1.10 * y], lw=1.0, color=to_rgba("black", 0.35))
-        ax.text(
-            r_text * x,
-            r_text * y,
-            f"{pct:.0f}%\n{lab}",
-            ha=ha,
-            va="center",
-            fontsize=cfg.FONT_TICK,   # define in config
-        )
-
-
-# -----------------------------
-# Helpers Hypotheses
-# -----------------------------
-def _require_cols(df: pd.DataFrame, cols: List[str], ctx: str) -> None:
-    missing = [c for c in cols if c not in df.columns]
-    if missing:
-        raise ValueError(f"[{ctx}] df_tidy missing columns: {missing}. Found: {df.columns.tolist()}")
-
-
-def _get_ce_series(df_tidy: pd.DataFrame, q_ce: str) -> pd.Series:
-    """Return CE as 0/1 indexed by respondent_id."""
-    _require_cols(df_tidy, ["respondent_id", "question_text", "answer"], "CE")
-    d = df_tidy[df_tidy["question_text"] == q_ce].copy()
-    s = d.groupby("respondent_id")["answer"].first()
-    ce = s.map(lambda x: hyp_const.JA_NEIN_MAPPING.get(str(x).strip(), np.nan)).astype("float")
-    return ce
-
-
-def _summarize_diverging(df_tidy: pd.DataFrame, q_group: str, q_ce: str) -> pd.DataFrame:
-    """
-    For single-select grouping question:
-    returns df with columns: group, yes_n, no_n, base_n, yes_pct, no_pct
-    """
-    d = df_tidy.copy()
-    g = d[d["question_text"] == q_group][["respondent_id", "answer"]].rename(columns={"answer": "group"})
-    ce = d[d["question_text"] == q_ce][["respondent_id", "answer"]].rename(columns={"answer": "ce"})
-
-    m = g.merge(ce, on="respondent_id", how="inner")
-    m["ce"] = m["ce"].astype(str)
-
-    # normalize CE labels
-    m["is_yes"] = m["ce"].str.strip().str.lower().eq("ja")
-    m["is_no"]  = m["ce"].str.strip().str.lower().eq("nein")
-
-    agg = (
-        m.groupby("group", dropna=False)
-        .agg(
-            yes_n=("is_yes", "sum"),
-            no_n=("is_no", "sum"),
-            base_n=("ce", "count"),
-        )
-        .reset_index()
-        .rename(columns={"group": "label"})
-    )
-
-    agg["yes_pct"] = np.where(agg["base_n"] > 0, agg["yes_n"] / agg["base_n"] * 100, 0.0)
-    agg["no_pct"]  = np.where(agg["base_n"] > 0, agg["no_n"]  / agg["base_n"] * 100, 0.0)
-    return agg
-
-
-def _summarize_diverging_multiselect(df_tidy: pd.DataFrame, q_multi: str, q_ce: str) -> pd.DataFrame:
-    """
-    For multi-select grouping question:
-    each respondent can appear multiple times (one per selected industry).
-    returns df with columns: label, yes_n, no_n, base_n, yes_pct, no_pct
-    """
-    d = df_tidy.copy()
-    g = d[d["question_text"] == q_multi][["respondent_id", "answer"]].rename(columns={"answer": "label"})
-    ce = d[d["question_text"] == q_ce][["respondent_id", "answer"]].rename(columns={"answer": "ce"})
-
-    m = g.merge(ce, on="respondent_id", how="inner")
-    m["ce"] = m["ce"].astype(str)
-
-    m["is_yes"] = m["ce"].str.strip().str.lower().eq("ja")
-    m["is_no"]  = m["ce"].str.strip().str.lower().eq("nein")
-
-    agg = (
-        m.groupby("label", dropna=False)
-        .agg(
-            yes_n=("is_yes", "sum"),
-            no_n=("is_no", "sum"),
-            base_n=("ce", "count"),
-        )
-        .reset_index()
-    )
-    agg["yes_pct"] = np.where(agg["base_n"] > 0, agg["yes_n"] / agg["base_n"] * 100, 0.0)
-    agg["no_pct"]  = np.where(agg["base_n"] > 0, agg["no_n"]  / agg["base_n"] * 100, 0.0)
-    return agg
-
-
-def _likert_means_pct(df_tidy: pd.DataFrame, q_block: str, mapping: Dict[str, float]) -> pd.DataFrame:
-    """
-    mapping: answer -> numeric score in [0..1] or [0..100] style.
-    We convert to 0..100%.
-    """
-    d = df_tidy[df_tidy["question_text"] == q_block].copy()
-    d = d[d["answer"].notna()]
-
-    # map answers
-    d["score"] = d["answer"].map(mapping)
-    d = d[d["score"].notna()]
-
-    # if mapping is 0..1 -> scale to 0..100
-    mx = float(np.nanmax(d["score"])) if len(d) else 1.0
-    if mx <= 1.0:
-        d["pct"] = d["score"] * 100.0
-    else:
-        d["pct"] = d["score"]
-
-    means = d.groupby("item", dropna=False)["pct"].mean().reset_index()
-    means.columns = ["dimension", "pct_mean"]
-    return means.sort_values("pct_mean", ascending=False)
-
-def finalize_like_standard(fig: plt.Figure, *, caption: str, reserve_right: float = 0.80, reserve_bottom: float = 0.18) -> None:
-    """
-    Make hypotheses plots match the standard plot layout (size + spacing + caption).
-    """
-    fig.set_size_inches(*cfg.FIGSIZE, forward=True)
-    fig.subplots_adjust(bottom=reserve_bottom, right=reserve_right)
-    add_caption(fig, caption)
-
-def _strong_counts(
-    df_tidy: pd.DataFrame,
-    block_question_text: str,
-    strong_set: set[str],
-) -> pd.Series:
-    d = df_tidy[df_tidy["question_text"] == block_question_text].copy()
-
-    d = d[d["answer"].notna()]
-    d = d[d["answer"].isin(strong_set)]
-
-    # count per item (dimension)
-    return d.groupby("item")["respondent_id"].nunique().sort_values(ascending=False)
-
-
-
-def _add_material_cost_group(df: pd.DataFrame) -> pd.DataFrame:
-    df = df.copy()
-    def grp(x: str) -> str:
-        if x in hyp_const.HIGH_COST_INDUSTRIES:
-            return "Hohe Materialkosten"
-        if x in hyp_const.LOW_COST_INDUSTRIES:
-            return "Geringe Materialkosten"
-        return "Sonstige/unklar"
-    df["cost_group"] = df["label"].astype(str).map(grp)
-
-    def prefix(row) -> str:
-        if row["cost_group"] == "Hohe Materialkosten":
-            return "▲ "
-        if row["cost_group"] == "Geringe Materialkosten":
-            return "▼ "
-        return "• "
-    df["label_marked"] = df.apply(lambda r: prefix(r) + str(r["label"]), axis=1)
-    return df
 
 # -----------------------------
 # Plot types
@@ -313,13 +49,13 @@ def plot_single_percent_bar(
     if use_horizontal:
 
         # wrap FIRST, then compute margin so labels never get cut
-        wrapped = wrap_labels(labels)
-        left = _left_margin_for_labels(wrapped, base=0.22, per_char=0.0040, cap=0.48)
+        wrapped = helper.wrap_labels(labels)
+        left = helper._left_margin_for_labels(wrapped, base=0.22, per_char=0.0040, cap=0.48)
 
         y = np.arange(len(labels))
         ax.barh(y, pcts, color=cfg.PALETTE[0])
         ax.set_yticks(y)
-        ax.set_yticklabels(wrap_labels(labels, width=18))
+        ax.set_yticklabels(helper.wrap_labels(labels, width=18))
         ax.set_xlabel("Anteil (%)")
 
         xmax = max(5, float(np.nanmax(pcts)) * 1.15)
@@ -343,7 +79,7 @@ def plot_single_percent_bar(
     x = np.arange(len(labels))
     ax.bar(x, pcts, color=cfg.PALETTE[0])
     ax.set_xticks(x)
-    ax.set_xticklabels(wrap_labels(labels, width=14), rotation=0, ha="center")
+    ax.set_xticklabels(helper.wrap_labels(labels, width=14), rotation=0, ha="center")
     ax.set_ylabel("Anteil (%)")
 
     ymax = max(5, float(np.nanmax(pcts)) * 1.20)
@@ -403,7 +139,7 @@ def plot_checkbox_percent_bar(
         y = np.arange(len(labels))
         ax.barh(y, pcts, color=cfg.PALETTE[0])
         ax.set_yticks(y)
-        ax.set_yticklabels(wrap_labels(labels, width=18))
+        ax.set_yticklabels(helper.wrap_labels(labels, width=18))
         ax.set_xlabel("Anteil der Nennungen (%)")
 
         xmax = max(5, float(np.nanmax(pcts)) * 1.15)
@@ -425,7 +161,7 @@ def plot_checkbox_percent_bar(
         x = np.arange(len(labels))
         ax.bar(x, pcts, color=cfg.PALETTE[0])
         ax.set_xticks(x)
-        ax.set_xticklabels(wrap_labels(labels, width=18), rotation=0, ha="center")
+        ax.set_xticklabels(helper.wrap_labels(labels, width=18), rotation=0, ha="center")
         ax.set_ylabel("Anteil der Nennungen (%)")
 
         ymax = max(5, float(np.nanmax(pcts)) * 1.20)
@@ -539,7 +275,7 @@ def plot_matrix_stacked_percent(
     # y labels (wrapped)
     labels = pivot_pct.index.astype(str).tolist()
     ax.set_yticks(y)
-    ax.set_yticklabels(wrap_labels(labels, width=18))
+    ax.set_yticklabels(helper.wrap_labels(labels, width=18))
 
     # x axis percent
     ax.set_xlim(0, 100)
@@ -554,7 +290,7 @@ def plot_matrix_stacked_percent(
     # legend on the right
     categories = list(pivot_n.columns)
     colors = [cfg.PALETTE[i % len(cfg.PALETTE)] for i in range(len(categories))]
-    _add_legend_on_the_right_side(fig, categories, colors, x=0.83, y_top=0.88, line_h=0.04, fontsize=10)
+    helper._add_legend_on_the_right_side(fig, categories, colors, x=0.83, y_top=0.88, line_h=0.04, fontsize=10)
 
     return fig
 
@@ -583,7 +319,7 @@ def plot_donut_single(
 
     # ✅ add_axes controls layout; subplots_adjust is not needed
     ax = fig.add_axes([cfg.AX_BOX_LEFT, cfg.AX_BOX_BOTTOM, cfg.AX_BOX_WIDTH, cfg.AX_BOX_HEIGHT])
-    _donut_one(ax, labels=wrap_labels(labels, width=28), pcts=pcts)
+    helper._donut_one(ax, labels=helper.wrap_labels(labels, width=28), pcts=pcts)
 
     return fig
 
@@ -699,7 +435,7 @@ def plot_diverging_yes_no(
     # else keep original order
 
     labels_raw = s["label"].astype(str).tolist()
-    labels = wrap_labels(labels_raw, width=wrap_width, max_lines=4)
+    labels = helper.wrap_labels(labels_raw, width=wrap_width, max_lines=4)
 
     if show_n_in_labels:
         labels = [f"{lab} (n={n})" for lab, n in zip(labels, s["base_n"].tolist())]
@@ -773,7 +509,7 @@ def plot_diverging_yes_no_h2(
     title: Optional[str] = None,
     wrap_width: int = 24,
 ) -> plt.Figure:
-    s = _add_material_cost_group(summary)
+    s = helper._add_material_cost_group(summary)
 
     # sort: high first, then low, then other; inside group by yes_pct desc
     order_map = {"Hohe Materialkosten": 0, "Geringe Materialkosten": 1, "Sonstige/unklar": 2}
@@ -813,7 +549,7 @@ def plot_radar_counts_topk(
     values = s.values.astype(float).tolist()
 
     # OPTIONAL: wrap_labels aus deinem plotting_function.py nutzen
-    labels_wrapped = wrap_labels(labels, width=wrap_width, max_lines=4)
+    labels_wrapped = helper.wrap_labels(labels, width=wrap_width, max_lines=4)
 
     n = len(labels_wrapped)
     if n == 0:
@@ -966,13 +702,13 @@ def plot_question_and_save(
         fig = result
 
         cap = f"Abbildung {prefix_index}: {caption_text}" if prefix_index is not None else f"Abbildung: {caption_text}"
-        add_caption(fig, cap)
+        helper.add_caption(fig, cap)
 
-        safe = make_filename_safe(q["question_text"])
+        safe = helper.make_filename_safe(q["question_text"])
         filename = f"{prefix_index:02d}_{safe}.{cfg.SAVE_FORMAT}" if prefix_index is not None else f"{safe}.{cfg.SAVE_FORMAT}"
 
         out_path = out_dir / filename
-        _save_fig(fig, out_path)
+        helper._save_fig(fig, out_path)
         out_paths.append(out_path)
         return out_paths
 
@@ -1002,14 +738,14 @@ def plot_question_and_save(
                 cap = f"Abbildung: {caption_text} – {item_label}"
                 filename_prefix = ""
 
-            add_caption(fig, cap)
+            helper.add_caption(fig, cap)
 
-            safe_q = make_filename_safe(q["question_text"])
-            safe_item = make_filename_safe(item_label)
+            safe_q = helper.make_filename_safe(q["question_text"])
+            safe_item = helper.make_filename_safe(item_label)
             filename = f"{filename_prefix}{safe_q}__{safe_item}.{cfg.SAVE_FORMAT}"
             out_path = out_dir / filename
 
-            _save_fig(fig, out_path)
+            helper._save_fig(fig, out_path)
             out_paths.append(out_path)
 
         return out_paths
@@ -1051,7 +787,7 @@ def plot_hypotheses_and_save(
 
 
     # --- H1 ---
-    h1 = _summarize_diverging(df_tidy, q_h1_group, q_ce)
+    h1 = helper._summarize_diverging(df_tidy, q_h1_group, q_ce)
     fig = plot_diverging_yes_no(
         h1,
         title="H1: Unternehmensgröße vs. CE umgesetzt",
@@ -1061,28 +797,28 @@ def plot_hypotheses_and_save(
         show_n_in_labels=False,
     )
     cap = _next_caption("Hypothese 1 – Größere Unternehmen setzen häufiger bereits Kreislaufwirtschaft um als kleine Unternehmen.")
-    add_caption(fig, cap)
+    helper.add_caption(fig, cap)
     p = out_dir / "H1_diverging.png"
     fig.savefig(p, dpi=300)
     plt.close(fig)
     saved.append(p); captions.append(cap)
 
     # --- H2 ---
-    h2 = _summarize_diverging_multiselect(df_tidy, q_h2_industry, q_ce)
+    h2 = helper._summarize_diverging_multiselect(df_tidy, q_h2_industry, q_ce)
     fig = plot_diverging_yes_no_h2(
         h2,
         title="H2: Branche vs. CE umgesetzt (Mehrfachauswahl)",
         wrap_width=22,
     )
     cap = _next_caption("Hypothese 2 – Branchen mit hohen Materialkosten sind eher bereit, Kreislaufwirtschaft umzusetzen als Branchen mit geringeren Materialkosten.")
-    add_caption(fig, cap)
+    helper.add_caption(fig, cap)
     p = out_dir / "H2_diverging.png"
     fig.savefig(p, dpi=300)
     plt.close(fig)
     saved.append(p); captions.append(cap)
 
     # --- H3 ---
-    h3 = _summarize_diverging(df_tidy, q_h3_group, q_ce)
+    h3 = helper._summarize_diverging(df_tidy, q_h3_group, q_ce)
     fig = plot_diverging_yes_no(
         h3,
         title="H3: Seriengröße vs. CE umgesetzt",
@@ -1092,7 +828,7 @@ def plot_hypotheses_and_save(
         show_n_in_labels=False,
     )
     cap = _next_caption("Hypothese 3 – Kleinserien oder Einzelanfertigungen eignen sich für die Wiederaufbereitung eher als Großserienprodukte.")
-    add_caption(fig, cap)
+    helper.add_caption(fig, cap)
     p = out_dir / "H3_diverging.png"
     fig.savefig(p, dpi=300)
     plt.close(fig)
@@ -1106,7 +842,7 @@ def plot_hypotheses_and_save(
     ]
 
     for key, q_block, strong_set, cap in h4_blocks:
-        counts = _strong_counts(df_tidy, q_block, strong_set=strong_set)
+        counts = helper._strong_counts(df_tidy, q_block, strong_set=strong_set)
 
         fig = plot_radar_counts_topk(
             counts,
@@ -1118,7 +854,7 @@ def plot_hypotheses_and_save(
 
         p = out_dir / f"{key}_radar.png"
 
-        fig.savefig(p, dpi=200, bbox_inches="tight")
+        fig.savefig(p, dpi=300, bbox_inches="tight")
         plt.close(fig)
         saved.append(p)
 

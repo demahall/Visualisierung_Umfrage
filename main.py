@@ -34,7 +34,7 @@ import hypothesen_CONST as hyp_const
 # -----------------------------
 # USER SETTINGS
 # -----------------------------
-EXCEL_PATH = Path("result-survey.xlsx")
+EXCEL_PATH = Path("new_result_survey.xlsx")
 FIRST_QUESTION_TEXT = "Welcher Art von Organisation gehören Sie an?"
 SPEC_PATH = Path("question_spec.json")
 
