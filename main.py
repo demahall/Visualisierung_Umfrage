@@ -28,7 +28,6 @@ from logger import TinyLogger
 import src.plotting.plotting_config as cfg
 from plotting_function import plot_question_and_save
 
-import QUESTION_LIST as hyp_const
 from Hypotheses.preprocessing_hypotheses import get_df_hypotheses
 from Hypotheses import df_hypotheses_dict
 
@@ -182,7 +181,7 @@ def main() -> None:
 
 
     df_hypotheses = get_df_hypotheses(df_tidy,df_hypotheses_dict)
-
+    print(df_hypotheses)
 
     try:
         hyp_paths, hyp_caps = plot_hypotheses_and_save(
@@ -266,29 +265,7 @@ def main() -> None:
     df_tidy.to_csv(cfg.OUTPUT_DIR / "df_tidy.csv", index=False, encoding="utf-8-sig")
 
 if __name__ == "__main__":
-
-    from Hypotheses.preprocessing_hypotheses import (
-        compute_verknuepfung_hypotheses,
-        compute_verknuepfung_h2_hypotheses,
-        compute_strong_counts_hypotheses)
-
-    import QUESTION_LIST as hyp_const
-
-    _, _, _, df_tidy, _ = prepare_data(
-        excel_path=cfg.EXCEL_PATH,
-        first_question_text=cfg.FIRST_QUESTION_TEXT,
-        sheet_name=0,
-        spec_path=cfg.SPEC_PATH,
-    )
-
-    out_h1 = compute_verknuepfung_hypotheses(df_tidy,hyp_const.Q2,hyp_const.Q11)
-    out_h2 = compute_verknuepfung_h2_hypotheses(df_tidy,hyp_const.Q4,hyp_const.Q11)
-    out_h3 = compute_verknuepfung_hypotheses(df_tidy,hyp_const.Q10,hyp_const.Q11)
-    out_h4_1 = compute_strong_counts_hypotheses(df_tidy,hyp_const.Q31,hyp_const.STRONG_CATEGORY_HEMMNIS)
-    out_h4_2 = compute_strong_counts_hypotheses(df_tidy,hyp_const.Q32,hyp_const.STRONG_CATEGORY_ZUSTIMMUNG)
-    out_h4_3 = compute_strong_counts_hypotheses(df_tidy,hyp_const.Q33,hyp_const.STRONG_CATEGORY_HEMMNIS)
-
-    print("done preprocessing")
+ main()
 
 
 

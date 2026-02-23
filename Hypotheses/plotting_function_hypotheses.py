@@ -32,6 +32,8 @@ def plot_diverging_yes_no(
     #labels -> 10-49, 50-250,<10,<250
     s = summary.copy()
 
+    # rearrange index
+
 
     labels_raw = s["label"].astype(str).tolist()
     labels = helper._wrap_labels(labels_raw, width=wrap_width, max_lines=4)

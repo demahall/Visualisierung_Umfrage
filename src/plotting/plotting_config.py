@@ -34,10 +34,9 @@ PLOTS_Q_DIR.mkdir(parents=True, exist_ok=True)
 PLOTS_H_DIR.mkdir(parents=True, exist_ok=True)
 PLOTS_JG_DIR.mkdir(parents=True, exist_ok=True)
 
-SAVE_FORMAT = "svg"
+SAVE_FORMAT = "png"
 SAVE_DPI = 300
 
-# IMPORTANT: keep stable (avoid "tight" layout issues)
 
 SAVE_BBOX = None
 SAVE_PAD_INCHES = 0.0
@@ -54,7 +53,7 @@ FONT_TITLE = 11
 
 # fixed axes box (relative to figure)
 AX_BOX_WIDTH = 0.50
-AX_BOX_LEFT  = (1 - AX_BOX_WIDTH) / 2   # centered
+AX_BOX_LEFT  = 0.30 # to keep long y index
 AX_BOX_RIGHT = AX_BOX_LEFT + AX_BOX_WIDTH
 
 AX_BOX_BOTTOM = 0.26   # room for caption
@@ -102,22 +101,24 @@ TINTS_YELLOW = ["#F9C803", "#FAD862", "#FAE295", "#FBE9B6", "#FBEECC", "#FCF4DF"
 # -----------------------------
 
 # --- fixed typography (uniform for all plotting_function_jg_analyse) ---
-FONT_BASE = 10
-FONT_AXIS_LABEL = 10
-FONT_TICK = 8
-FONT_BAR_LABEL = 8
-FONT_CAPTION = 11
+FONT_BASE = 12
+FONT_AXIS_LABEL = 12
+FONT_TICK = 12
+FONT_BAR_LABEL = 12
+FONT_CAPTION = 12
 
 # caption wrapping
-CAPTION_WRAP_WIDTH = 80   # characters per line
-CAPTION_Y = 0.1          # move caption slightly up
+
+CAPTION_WRAP_WIDTH = 65  # characters per line
+CAPTION_Y = 0.04  # move caption slightly up
 CAPTION_LINE_SPACING = 1.1
+
 
 #Font Caption
 
-HORIZONTAL_THRESHOLD = 4          # >4 categories => horizontal bars
-LABEL_PCT_DECIMALS = 0           # labels on bars
-AXIS_PCT_DECIMALS = 0            # axis ticks
+HORIZONTAL_THRESHOLD = 4  # >4 categories => horizontal bars
+LABEL_PCT_DECIMALS = 0  # labels on bars
+AXIS_PCT_DECIMALS = 0  # axis ticks
 CAPTION_FONTSIZE = 11
 FONT_LEGEND_SIZE = 8
 
@@ -125,17 +126,26 @@ FONT_LEGEND_SIZE = 8
 #Horinzontale Bar config
 
 HBAR_GROUP_GAP = 1      # space between dimensions (increase for more gap)
-HBAR_INNER_GAP = 0.45    # space between GU & KMU (small)
+HBAR_INNER_GAP = 0.55    # space between GU & KMU (small)
 HBAR_BAR_HEIGHT = 0.35    # thinner bars
 
 
 STYLE = {
     # Fonts
     "font.family": "DejaVu Sans",
-    "font.size": FONT_BASE,
-    "axes.labelsize": FONT_AXIS_LABEL,
-    "xtick.labelsize": FONT_TICK,
-    "ytick.labelsize": FONT_TICK,
+    "font.size": 12,
+
+    # axis titles (xlabel / ylabel)
+    "axes.labelsize": 12,
+    "axes.titlesize": 12,
+
+    # tick labels (DEINE Kategorien!)
+    "xtick.labelsize": 12,
+    "ytick.labelsize": 12,
+
+    # weights
+    "axes.labelweight": "regular",
+    "axes.titleweight": "regular",
 
     # Axes / grid
     "axes.edgecolor": "#333333",
@@ -148,7 +158,7 @@ STYLE = {
     "axes.facecolor": "white",
 
     # Legend
-    "legend.fontsize": 10,
+    "legend.fontsize": 12,
     "legend.frameon": False,
 
     # Saving
@@ -158,3 +168,7 @@ STYLE = {
 def apply_style() -> None:
     """Call once at program start (main.py)."""
     mpl.rcParams.update(STYLE)
+
+
+
+

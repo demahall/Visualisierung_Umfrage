@@ -1,4 +1,4 @@
-Run started: 2026-02-23 14:10:25
+Run started: 2026-02-23 19:12:06
 Log file: /Users/buayaguruun21/PycharmProjects/Visualisierung_Umfrage/plotting_output/plotting_output/run_log.txt
 ------------------------------------------------------------------------------------------
 Excel: /Users/buayaguruun21/PycharmProjects/Visualisierung_Umfrage/new_survey_result.xlsx
@@ -7,84 +7,55 @@ Output:/Users/buayaguruun21/PycharmProjects/Visualisierung_Umfrage/plotting_outp
 Catalog entries: 43
 
 === PLOTTING QUESTIONS ===
-[OK]          | Abbildung 1 | type=single | plot= | saved=1 | 01_Welcher_Art_von_Organisation_gehören_Sie_an_.svg
-[OK]          | Abbildung 2 | type=single | plot=donut | saved=1 | 02_Wie_viele_Beschäftigte_hat_Ihr_Unternehmen_.svg
-[OK]          | Abbildung 3 | type=single | plot=donut | saved=1 | 03_Wie_hoch_ist_der_jährliche_Umsatz_Ihres_Unternehmens_.svg
-[OK]          | Abbildung 4 | type=checkbox | plot= | saved=1 | 04_In_welcher_Branche_ordnen_Sie_Ihre_Tätigkeit_ein_.svg
-[OK]          | Abbildung 5 | type=single | plot= | saved=1 | 05_Welche_Position_haben_Sie_im_Unternehmen_.svg
-[OK]          | Abbildung 6 | type=single | plot= | saved=1 | 06_Wie_ist_die_Fertigung_in_Ihrem_Tätigkeitsfeld_organisiert_.svg
-[OK]          | Abbildung 7 | type=single | plot=donut | saved=1 | 07_Wie_ordnen_Sie_die_monatliche_Stückzahl_Ihrer_Fertigung_ein_.svg
-[OK]          | Abbildung 8 | type=single | plot=donut | saved=1 | 08_Wie_wird_sich_aus_Ihrer_Sicht_die_Produktion_in_Deutschland_.svg
-[OK]          | Abbildung 9 | type=single | plot=donut | saved=1 | 09_Wie_wird_sich_aus_Ihrer_Sicht_der_Personalbestand_in_Ihrem_T.svg
-[OK]          | Abbildung 10 | type=single | plot=donut | saved=1 | 10_Wo_wird_von_Ihrem_Unternehmen_in_Ihrem_Tätigkeitsfeld_zukünf.svg
-[OK]          | Abbildung 11 | type=single | plot=donut | saved=1 | 11_Wird_in_Ihrem_Unternehmen_Kreislaufwirtschaft_bereits_umgese.svg
-[OK]          | Abbildung 12 | type=likert | plot=donut | saved=1 | 12_Wie_schätzen_Sie_Ihre_Kenntnisse_im_Themenfeld_der_Kreislauf.svg
-[OK]          | Abbildung 13 | type=matrix | plot= | saved=1 | 13_Welche_der_nachfolgend_aufgeführten_Punkte_sind_für_Ihr_Unte.svg
-[OK]          | Abbildung 14 | type=matrix | plot= | saved=1 | 14_Sind_die_folgenden_Aspekte_in_Ihrem_Unternehmen_im_Bereich_d.svg
-[OK]          | Abbildung 15 | type=single | plot= | saved=1 | 15_Handelt_es_sich_bei_den_rückgeführten_Produkten_um_Produkte_.svg
-[OK]          | Abbildung 16 | type=single | plot= | saved=1 | 16_Wie_wird_derzeit_in_Ihrem_Unternehmen_überwiegend_mit_Teilen.svg
+[OK]          | Abbildung 1 | type=single | plot= | saved=1 | 01_Welcher_Art_von_Organisation_gehören_Sie_an_.png
+[OK]          | Abbildung 2 | type=single | plot=donut | saved=1 | 02_Wie_viele_Beschäftigte_hat_Ihr_Unternehmen_.png
+[OK]          | Abbildung 3 | type=single | plot=donut | saved=1 | 03_Wie_hoch_ist_der_jährliche_Umsatz_Ihres_Unternehmens_.png
+[OK]          | Abbildung 4 | type=checkbox | plot= | saved=1 | 04_In_welcher_Branche_ordnen_Sie_Ihre_Tätigkeit_ein_.png
+[OK]          | Abbildung 5 | type=single | plot= | saved=1 | 05_Welche_Position_haben_Sie_im_Unternehmen_.png
+[OK]          | Abbildung 6 | type=single | plot= | saved=1 | 06_Wie_ist_die_Fertigung_in_Ihrem_Tätigkeitsfeld_organisiert_.png
+[OK]          | Abbildung 7 | type=single | plot=donut | saved=1 | 07_Wie_ordnen_Sie_die_monatliche_Stückzahl_Ihrer_Fertigung_ein_.png
+[OK]          | Abbildung 8 | type=single | plot=donut | saved=1 | 08_Wie_wird_sich_aus_Ihrer_Sicht_die_Produktion_in_Deutschland_.png
+[OK]          | Abbildung 9 | type=single | plot=donut | saved=1 | 09_Wie_wird_sich_aus_Ihrer_Sicht_der_Personalbestand_in_Ihrem_T.png
+[OK]          | Abbildung 10 | type=single | plot=donut | saved=1 | 10_Wo_wird_von_Ihrem_Unternehmen_in_Ihrem_Tätigkeitsfeld_zukünf.png
+[OK]          | Abbildung 11 | type=single | plot=donut | saved=1 | 11_Wird_in_Ihrem_Unternehmen_Kreislaufwirtschaft_bereits_umgese.png
+[OK]          | Abbildung 12 | type=likert | plot=donut | saved=1 | 12_Wie_schätzen_Sie_Ihre_Kenntnisse_im_Themenfeld_der_Kreislauf.png
+[OK]          | Abbildung 13 | type=matrix | plot= | saved=1 | 13_Welche_der_nachfolgend_aufgeführten_Punkte_sind_für_Ihr_Unte.png
+[OK]          | Abbildung 14 | type=matrix | plot= | saved=1 | 14_Sind_die_folgenden_Aspekte_in_Ihrem_Unternehmen_im_Bereich_d.png
+[OK]          | Abbildung 15 | type=single | plot= | saved=1 | 15_Handelt_es_sich_bei_den_rückgeführten_Produkten_um_Produkte_.png
+[OK]          | Abbildung 16 | type=single | plot= | saved=1 | 16_Wie_wird_derzeit_in_Ihrem_Unternehmen_überwiegend_mit_Teilen.png
 [SKIP text]   | Abbildung 17 | Welche Produkte werden aktuell oder künftig wiederaufbereitet und wo liegt deren Wert typischerweise?
-[OK]          | Abbildung 18 | type=matrix | plot=donut | saved=11 | 18a_Bitte_bewerten_Sie__inwieweit_Daten_in_Ihrem_Unernehmen_erfa__Automatisierungstechnik_z_B__Robotik__Steuerungstechnik__Han.svg
-[OK]          | Abbildung 19 | type=matrix | plot=donut | saved=10 | 19a_Welche_der_nachfolgenden_Industrie_4_0_-_Technologien_werden___Autonome__Robotik_z__B__Fahrerlose_Transportsysteme__Indust.svg
+[OK]          | Abbildung 18 | type=matrix | plot=donut | saved=11 | 18a_Bitte_bewerten_Sie__inwieweit_Daten_in_Ihrem_Unernehmen_erfa__Automatisierungstechnik_z_B__Robotik__Steuerungstechnik__Han.png
+[OK]          | Abbildung 19 | type=matrix | plot=donut | saved=10 | 19a_Welche_der_nachfolgenden_Industrie_4_0_-_Technologien_werden___Autonome__Robotik_z__B__Fahrerlose_Transportsysteme__Indust.png
 [SKIP text]   | Abbildung 20 | Weitere Technologie:
 [SKIP text]   | Abbildung 21 | Weitere Technologie:.1
-[OK]          | Abbildung 22 | type=matrix | plot=donut | saved=3 | 22a_Auf_welcher_kleinsten_Ebene_wird_der_Einsatz_der_folgenden_E__Druckluft.svg
-[OK]          | Abbildung 23 | type=matrix | plot=donut | saved=2 | 23a_Auf_welcher_kleinsten_Ebene_werden_Verbrauchsmaterialien__Be__Abfälle.svg
-[OK]          | Abbildung 24 | type=matrix | plot= | saved=1 | 24_Stimmen_Sie_nachfolgenden_Aussagen_zur_Digitalisierung_und_Q.svg
-[OK]          | Abbildung 25 | type=matrix | plot= | saved=1 | 25_Stimmen_Sie_nachfolgenden_Aspekten_im_Kontext_des_Produktdes.svg
-[OK]          | Abbildung 26 | type=matrix | plot= | saved=1 | 26_Stimmen_Sie_nachfolgenden_Aspekten_im_Kontext_der__Rückführu.svg
-[OK]          | Abbildung 27 | type=matrix | plot= | saved=1 | 27_Stimmen_Sie_nachfolgenden_Aspekten_im_Bereich_der_Demontage_.svg
-[OK]          | Abbildung 28 | type=matrix | plot=donut | saved=9 | 28a_Welche_der_nachfolgenden_Nutzenpotenziale_erachten_Sie_als_e__Entwicklung_neuer_Geschäftsmodelle_durch_Erschließung_neuer_.svg
+[OK]          | Abbildung 22 | type=matrix | plot=donut | saved=3 | 22a_Auf_welcher_kleinsten_Ebene_wird_der_Einsatz_der_folgenden_E__Druckluft.png
+[OK]          | Abbildung 23 | type=matrix | plot=donut | saved=2 | 23a_Auf_welcher_kleinsten_Ebene_werden_Verbrauchsmaterialien__Be__Abfälle.png
+[OK]          | Abbildung 24 | type=matrix | plot= | saved=1 | 24_Stimmen_Sie_nachfolgenden_Aussagen_zur_Digitalisierung_und_Q.png
+[OK]          | Abbildung 25 | type=matrix | plot= | saved=1 | 25_Stimmen_Sie_nachfolgenden_Aspekten_im_Kontext_des_Produktdes.png
+[OK]          | Abbildung 26 | type=matrix | plot= | saved=1 | 26_Stimmen_Sie_nachfolgenden_Aspekten_im_Kontext_der__Rückführu.png
+[OK]          | Abbildung 27 | type=matrix | plot= | saved=1 | 27_Stimmen_Sie_nachfolgenden_Aspekten_im_Bereich_der_Demontage_.png
+[OK]          | Abbildung 28 | type=matrix | plot=donut | saved=9 | 28a_Welche_der_nachfolgenden_Nutzenpotenziale_erachten_Sie_als_e__Entwicklung_neuer_Geschäftsmodelle_durch_Erschließung_neuer_.png
 [SKIP text]   | Abbildung 29 | Weiteres Nutzenpotenzial:
-[OK]          | Abbildung 30 | type=single | plot= | saved=1 | 30_Welche_Erfahrungen_hat_Ihr_Unternehmen_mit_der_Zahlungsberei.svg
-[OK]          | Abbildung 31 | type=matrix | plot=donut | saved=8 | 31a_Welche_der_nachfolgenden_Industrie_4_0_-_Technologien_generi__Traceability_-_Technologien_z__B__RFID__Barcode__QR_-_Code_.svg
-[OK]          | Abbildung 32 | type=single | plot= | saved=1 | 32_In_welchen_Lebenszyklusphasen_bzw__Elementen_des_zirkulären_.svg
-[OK]          | Abbildung 33 | type=single | plot= | saved=1 | 33_Welche_konkreten_Mehrwerte_versprechen_Sie_sich_durch_den_Ei.svg
-[OK]          | Abbildung 34 | type=matrix | plot=donut | saved=16 | 34a_In_welchem_Maß_stellen_die_folgenden_Punkte_ein_Hemmnis_für___Daten_aus_der_Lieferkette__Kunden__Lieferanten__nur_schwer_z.svg
-[OK]          | Abbildung 35 | type=matrix | plot=donut | saved=10 | 35a_Inwieweit_stimmen_Sie_folgenden_Aussagen_zur_Umsetzung_von_K___Die_Einführung_von_Rücknahme_-___Recycling_-_und_Nachweissy.svg
-[OK]          | Abbildung 36 | type=matrix | plot=donut | saved=9 | 36a_In_welchen_Lebenszyklusphasen_bzw__Elementen_des_zirkulären___Aufbereitung__amp__Verwertung.svg
-[OK]          | Abbildung 37 | type=single | plot= | saved=1 | 37_Haben_Sie_Interesse__an_öffentlich_geförderten_Forschungspro.svg
-[OK]          | Abbildung 38 | type=checkbox | plot= | saved=1 | 38_Bitte_spezifizieren_Sie_den_oder_die_Fördermittelträger_des_.svg
-[OK]          | Abbildung 39 | type=checkbox | plot= | saved=1 | 39_In_welchen_Bereichen_sehen_Sie_Verbesserungspotenzial_bei_öf.svg
-[OK]          | Abbildung 40 | type=matrix | plot=donut | saved=10 | 40a_Wie_bewerten_Sie_die_Wirksamkeit_der_folgenden_öffentlichen___Aufbereitung_von_Best_Practices.svg
-[OK]          | Abbildung 41 | type=single | plot=donut | saved=1 | 41_Haben_Sie_Interesse_an_einem_weiterführenden_Gespräch_teilzu.svg
-[OK]          | Abbildung 42 | type=single | plot= | saved=1 | 42_Haben_Sie_Interesse_an_den_Ergebnissen_dieser_Studie__In_die.svg
-[OK]          | Abbildung 43 | type=single | plot= | saved=1 | 43_Geben_Sie_bitte_Ihre_E_-_Mail_-_Adresse_an__damit_wir_Sie_er.svg
+[OK]          | Abbildung 30 | type=single | plot= | saved=1 | 30_Welche_Erfahrungen_hat_Ihr_Unternehmen_mit_der_Zahlungsberei.png
+[OK]          | Abbildung 31 | type=matrix | plot=donut | saved=8 | 31a_Welche_der_nachfolgenden_Industrie_4_0_-_Technologien_generi__Traceability_-_Technologien_z__B__RFID__Barcode__QR_-_Code_.png
+[OK]          | Abbildung 32 | type=single | plot= | saved=1 | 32_In_welchen_Lebenszyklusphasen_bzw__Elementen_des_zirkulären_.png
+[OK]          | Abbildung 33 | type=single | plot= | saved=1 | 33_Welche_konkreten_Mehrwerte_versprechen_Sie_sich_durch_den_Ei.png
+[OK]          | Abbildung 34 | type=matrix | plot=donut | saved=16 | 34a_In_welchem_Maß_stellen_die_folgenden_Punkte_ein_Hemmnis_für___Daten_aus_der_Lieferkette__Kunden__Lieferanten__nur_schwer_z.png
+[OK]          | Abbildung 35 | type=matrix | plot=donut | saved=10 | 35a_Inwieweit_stimmen_Sie_folgenden_Aussagen_zur_Umsetzung_von_K___Die_Einführung_von_Rücknahme_-___Recycling_-_und_Nachweissy.png
+[OK]          | Abbildung 36 | type=matrix | plot=donut | saved=9 | 36a_In_welchen_Lebenszyklusphasen_bzw__Elementen_des_zirkulären___Aufbereitung__amp__Verwertung.png
+[OK]          | Abbildung 37 | type=single | plot= | saved=1 | 37_Haben_Sie_Interesse__an_öffentlich_geförderten_Forschungspro.png
+[OK]          | Abbildung 38 | type=checkbox | plot= | saved=1 | 38_Bitte_spezifizieren_Sie_den_oder_die_Fördermittelträger_des_.png
+[OK]          | Abbildung 39 | type=checkbox | plot= | saved=1 | 39_In_welchen_Bereichen_sehen_Sie_Verbesserungspotenzial_bei_öf.png
+[OK]          | Abbildung 40 | type=matrix | plot=donut | saved=10 | 40a_Wie_bewerten_Sie_die_Wirksamkeit_der_folgenden_öffentlichen___Aufbereitung_von_Best_Practices.png
+[OK]          | Abbildung 41 | type=single | plot=donut | saved=1 | 41_Haben_Sie_Interesse_an_einem_weiterführenden_Gespräch_teilzu.png
+[OK]          | Abbildung 42 | type=single | plot= | saved=1 | 42_Haben_Sie_Interesse_an_den_Ergebnissen_dieser_Studie__In_die.png
+[OK]          | Abbildung 43 | type=single | plot= | saved=1 | 43_Geben_Sie_bitte_Ihre_E_-_Mail_-_Adresse_an__damit_wir_Sie_er.png
 
 === PLOTTING HYPOTHESES ===
-[FAIL] Hypotheses | error=KeyError('ce')
+[FAIL] Hypotheses | error=NameError("name 'plot_hypotheses_and_save' is not defined")
 traceback:
 Traceback (most recent call last):
-  File "/Users/buayaguruun21/PycharmProjects/Visualisierung_Umfrage/.venv/lib/python3.10/site-packages/pandas/core/indexes/base.py", line 3812, in get_loc
-    return self._engine.get_loc(casted_key)
-  File "pandas/_libs/index.pyx", line 167, in pandas._libs.index.IndexEngine.get_loc
-  File "pandas/_libs/index.pyx", line 196, in pandas._libs.index.IndexEngine.get_loc
-  File "pandas/_libs/hashtable_class_helper.pxi", line 7088, in pandas._libs.hashtable.PyObjectHashTable.get_item
-  File "pandas/_libs/hashtable_class_helper.pxi", line 7096, in pandas._libs.hashtable.PyObjectHashTable.get_item
-KeyError: 'ce'
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/Users/buayaguruun21/PycharmProjects/Visualisierung_Umfrage/main.py", line 186, in main
+  File "/Users/buayaguruun21/PycharmProjects/Visualisierung_Umfrage/main.py", line 187, in main
     hyp_paths, hyp_caps = plot_hypotheses_and_save(
-  File "/Users/buayaguruun21/PycharmProjects/Visualisierung_Umfrage/Hypotheses/plotting_function_hypotheses.py", line 232, in plot_hypotheses_and_save
-    h1 = summarize_diverging(df_tidy,None,None)
-  File "/Users/buayaguruun21/PycharmProjects/Visualisierung_Umfrage/Hypotheses/preprocessing_hypotheses.py", line 23, in summarize_diverging
-    m["ce"] = m["ce"].astype(str)
-  File "/Users/buayaguruun21/PycharmProjects/Visualisierung_Umfrage/.venv/lib/python3.10/site-packages/pandas/core/frame.py", line 4113, in __getitem__
-    indexer = self.columns.get_loc(key)
-  File "/Users/buayaguruun21/PycharmProjects/Visualisierung_Umfrage/.venv/lib/python3.10/site-packages/pandas/core/indexes/base.py", line 3819, in get_loc
-    raise KeyError(key) from err
-KeyError: 'ce'
+NameError: name 'plot_hypotheses_and_save' is not defined
 
-[OK] Wrote list_of_figures.txt (43 lines)
-
-=== SUMMARY ===
-Questions OK:      39
-Questions skipped: 4
-Questions failed:  0
-Saved plot files:  117
-Output folder:     /Users/buayaguruun21/PycharmProjects/Visualisierung_Umfrage/plotting_output/plotting_output
-------------------------------------------------------------------------------------------
-Run finished: 2026-02-23 14:10:31

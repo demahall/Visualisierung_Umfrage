@@ -55,16 +55,15 @@ def plot_crosstab_frage(
     ja = piv["Ja"].values
     nein = piv["Nein"].values
 
-    # wrap + margin
+    # wrap
     wrapped = helper._wrap_labels(y_labels, width=42, max_lines=2)
-    left = helper._left_margin_for_labels(wrapped, base=0.22, per_char=0.0040, cap=0.50)
 
     # 5) figure / axes
     fig = plt.figure(figsize=cfg.FIGSIZE)
     ax = fig.add_axes([cfg.AX_BOX_LEFT, cfg.AX_BOX_BOTTOM, cfg.AX_BOX_WIDTH, cfg.AX_BOX_HEIGHT])
 
     y = np.arange(len(y_labels))
-    h = getattr(cfg, "GROUPED_BAR_HEIGHT", 0.35)
+    h = cfg.HBAR_BAR_HEIGHT
     off = h / 2.0
 
 
@@ -78,11 +77,11 @@ def plot_crosstab_frage(
 
     ax.barh(y - off, v_yes_draw, height=h, color=cfg.PALETTE[0], label=hbar_legend[0])
     ax.barh(y + off, v_no_draw, height=h, color=cfg.PALETTE[2], label=hbar_legend[1])
-
+    ax.legend(fontsize=cfg.FONT_LEGEND_SIZE)
 
     ax.set_yticks(y)
     ax.set_yticklabels(y_ticks)
-
+    ax.tick_params(labelsize=cfg.FONT_TICK)
     ax.set_xlim(0, 100)
     ax.set_xticks([0, 50, 100])
     ax.xaxis.set_major_formatter(mtick.PercentFormatter(xmax=100, decimals=cfg.AXIS_PCT_DECIMALS))
@@ -120,6 +119,5 @@ def plot_crosstab_frage(
     ax.legend(loc="lower center", bbox_to_anchor=(0.5, -0.18), ncol=2, fontsize=cfg.FONT_LEGEND_SIZE)
 
     ax.invert_yaxis()
-    fig.subplots_adjust(left=left, right=0.98, top=0.95, bottom=0.26)
 
     return fig

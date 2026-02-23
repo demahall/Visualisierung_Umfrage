@@ -91,23 +91,40 @@ def compute_strong_counts_hypotheses(
     return counts
 
 
-def get_df_hypotheses(df_tidy:pd.DataFrame, hypotheses_config:dict) -> dict:
+
+def get_df_hypotheses(df_tidy, hypotheses_config):
+    """
+    Runs hypothesis jobs defined in hypotheses_config.
+
+    Each job must have:
+      - key: str
+      - func: callable
+      - params: dict (optional)
+
+    All funcs are called like:
+      func(df_tidy=df_tidy, **params)
+    """
     results = {}
 
     for job in hypotheses_config:
+        key = job["key"]
         func = job["func"]
-        params = job["params"]
+        params = job.get("params", {}) or {}
 
-        result_df = func(
-            df_tidy=df_tidy,
-            initial_question=params["initial_question"],
-            target_question=params["target_question"]
-        )
+        # --- Optional: quick validation for nicer errors ---
+        if not callable(func):
+            raise TypeError(f"[{key}] 'func' is not callable: {func}")
 
-        results[job["key"]] = result_df
+        try:
+            out = func(df_tidy=df_tidy, **params)
+        except TypeError as e:
+            # Provide a helpful debug message (common in config-driven pipelines)
+            raise TypeError(
+                f"Error running hypothesis '{key}' with func='{getattr(func, '__name__', str(func))}'.\n"
+                f"Passed params: {params}\n"
+                f"Original error: {e}"
+            ) from e
+
+        results[key] = out
 
     return results
-
-
-
-

@@ -73,7 +73,6 @@ def plot_zustimmung_yesno_stacked_by_group(
         y_labels.append("")      # second row (KMU)
 
     wrapped = helper._wrap_labels(y_labels,width=40, max_lines=3)
-    left = helper._left_margin_for_labels(wrapped, base=0.24, per_char=0.0035, cap=0.52)
 
     # values in plotting order
     yes = piv[answer_order[0]].values
@@ -109,11 +108,12 @@ def plot_zustimmung_yesno_stacked_by_group(
 
     ax.set_yticks(y)
     ax.set_yticklabels(wrapped)
-
+    ax.tick_params(labelsize=cfg.FONT_TICK)
     ax.set_xlim(0, 100)
     ax.set_xticks([0, 25, 50,75, 100])
     ax.xaxis.set_major_formatter(mtick.PercentFormatter(xmax=100, decimals=cfg.AXIS_PCT_DECIMALS))
     ax.set_xlabel("Anteil der Teilnehmer in %")
+
     #ax.set_title(title, fontsize=cfg.FONT_TITLE)
 
     # write "GU"/"KMU" at left of each row (inside axis area)
@@ -156,6 +156,5 @@ def plot_zustimmung_yesno_stacked_by_group(
     ax.legend(loc="lower center", bbox_to_anchor=(0.5, -0.18), ncol=2, fontsize=cfg.FONT_LEGEND_SIZE)
 
     ax.invert_yaxis()
-    fig.subplots_adjust(left=left, right=0.86, top=0.95, bottom=0.26)
 
     return fig

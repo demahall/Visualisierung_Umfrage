@@ -26,7 +26,7 @@ def gu_kmu_classification(df_tidy: pd.DataFrame) ->(pd.DataFrame):
 
     filter_ids = set(df_tidy.loc[
                        (df_tidy["question_text"] == Q1) &
-                       (df_tidy["answer"].isin(["Produzierendes Unternehmen","IT - /Entwicklungsdienstleister"])),
+                       (df_tidy["answer"].isin(["Produzierendes Unternehmen"])),
                         COL_ID
                    ])
 

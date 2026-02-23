@@ -65,20 +65,22 @@ def plot_grouped_pct_prepared(
 
     # 7) Bars (two per category)
     y = np.arange(len(labels))
-    h = getattr(cfg, "GROUPED_BAR_HEIGHT", 0.35)
+    h = cfg.HBAR_BAR_HEIGHT
     off = h / 2.0
 
     ax.barh(y - off, v1, height=h, color=cfg.PALETTE[0], label=legend_label(group_order[1]))
     ax.barh(y + off, v2, height=h, color=cfg.PALETTE[1], label=legend_label(group_order[0]))
+    ax.legend(fontsize=cfg.FONT_LEGEND_SIZE)
 
     ax.set_yticks(y)
+    ax.tick_params(labelsize=cfg.FONT_TICK)
     ax.set_yticklabels(wrapped)
     ax.set_xlabel("Anteil der Teilnehmer in %")
     #ax.set_title(title, fontsize=cfg.FONT_TITLE)
 
     # 8) X axis fixed 0–100
     ax.set_xlim(0, 100)
-    ax.set_xticks([0, 50, 100])
+    ax.set_xticks([0,25, 50,75, 100])
     ax.xaxis.set_major_formatter(mtick.PercentFormatter(xmax=100, decimals=cfg.AXIS_PCT_DECIMALS))
 
     # 9) Value labels at bar end
@@ -96,6 +98,6 @@ def plot_grouped_pct_prepared(
     ax.invert_yaxis()
 
     # avoid label cut
-    fig.subplots_adjust(left=left, right=0.98, top=0.95, bottom=0.26)
+    fig.subplots_adjust(left=0.50)
 
     return fig

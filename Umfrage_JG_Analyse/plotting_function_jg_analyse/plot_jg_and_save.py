@@ -68,11 +68,20 @@ def plot_jg_and_save(results: dict, out_dir: Path) -> Tuple[List[Path], List[str
     )
     save(fig, "Bewertung der Erfassung und Benutzung von Daten in Unternehmen", "Bewertung der Erfassung und Benutzung von Daten in Unternehmen")
 
-    fig = plot_zustimmung_yesno_stacked_by_group(
+    fig = plot_grouped_pct_prepared(
         df_plot=results["zustimmung"],
-        title="Zustimmung zur Digitalisierung und Quantifizierung zir. Wertschöpfungsprozesse"
+        answer_value="Ja",
+        title="Zustimmung zur Digitalisierung und Quantifizierung zir. Wertschöpfungsprozesse (Stimmt zu)"
     )
-    save(fig, "Zustimmung zur Digitalisierung und Quantifizierung zir. Wertschöpfungsprozesse", "Zustimmung zur Digitalisierung und Quantifizierung zir. Wertschöpfungsprozesse")
+    save(fig, "Zustimmung zur Digitalisierung und Quantifizierung zir. Wertschöpfungsprozesse (Stimmt zu)", "Zustimmung zur Digitalisierung und Quantifizierung zir. Wertschöpfungsprozesse (Stimmt zu)")
+
+    fig = plot_grouped_pct_prepared(
+        df_plot=results["zustimmung"],
+        answer_value="Nein",
+        title="Zustimmung zur Digitalisierung und Quantifizierung zir. Wertschöpfungsprozesse (Stimmt nicht zu)"
+    )
+    save(fig, "Zustimmung zur Digitalisierung und Quantifizierung zir. Wertschöpfungsprozesse (Stimmt nicht zu)",
+         "Zustimmung zur Digitalisierung und Quantifizierung zir. Wertschöpfungsprozesse (Stimmt nicht zu)")
 
     fig = plot_crosstab_frage(
         results["stueckzahl_kennzahlen"],
