@@ -28,17 +28,6 @@ def plot_diverging(
 
     #labels -> 10-49, 50-250,<10,<250
     df = df_hypotheses.copy()
-    # rearrange index
-
-    order = ["< 10", "10 - 49", "50 - 250", "> 250"]
-
-    df["initial_question_label"] = pd.Categorical(
-        df["initial_question_label"],
-        categories=order,
-        ordered=True
-    )
-
-    df = df.sort_values("initial_question_label").reset_index(drop=True)
 
     labels_raw = df["initial_question_label"].astype(str).tolist()
     labels = helper._wrap_labels(labels_raw)
@@ -56,8 +45,8 @@ def plot_diverging(
 
     h = cfg.HBAR_BAR_HEIGHT
     # bars
-    ax.barh(y, -no,height=h, color=cfg.PALETTE[2], label="noch nicht umgesetzt")
-    ax.barh(y,  yes,height=h, color=cfg.PALETTE[0], label="bereits umgesetzt")
+    ax.barh(y, -no, color=cfg.PALETTE[2], label="noch nicht umgesetzt")
+    ax.barh(y,  yes, color=cfg.PALETTE[0], label="bereits umgesetzt")
 
 
     # middle line
@@ -80,12 +69,18 @@ def plot_diverging(
 
     ax.tick_params(labelsize=cfg.FONT_TICK)
 
-    # text on bars (pct + (n))
-    for i, (yp, npct, yn, nn) in enumerate(zip(yes, no, df["yes_n"], df["no_n"])):
-        if npct > 0:
-            ax.text(-npct/2, i, f"{npct:.0f}%\n({int(nn)})", va="center", ha="center", fontsize=cfg.FONT_TICK)
-        if yp > 0:
-            ax.text( yp/2, i, f"{yp:.0f}%\n({int(yn)})", va="center", ha="center", fontsize=cfg.FONT_TICK)
+    min_inbar = 6  # if a bar size is too small, skip it
+
+    for i, (yp, npct) in enumerate(zip(yes, no)):
+        # LEFT (no) is negative in your plot => use abs for width decisions
+        if npct > 0 and abs(npct) >= min_inbar:
+            ax.text(-abs(npct) / 2, i, f"{abs(npct):.0f}%",
+                    va="center", ha="center", fontsize=cfg.FONT_TICK,color="white")
+
+        # RIGHT (yes) is positive
+        if yp > 0 and yp >= min_inbar:
+            ax.text(yp / 2, i, f"{yp:.0f}%",
+                    va="center", ha="center", fontsize=cfg.FONT_TICK,color="white")
 
     # grid
     ax.grid(axis="x", alpha=0.18)
@@ -99,6 +94,30 @@ def plot_diverging(
         fontsize=cfg.FONT_LEGEND_SIZE,
     )
 
+    plt.show()
+
+    return fig
+
+
+def plot_diverging_h1(df_hypotheses: pd.DataFrame,
+                      ylabel = "Anzahl der Beschäftigten",
+                      show_n_in_labels = False)-> plt.Figure:
+
+    #labels -> 10-49, 50-250,<10,<250
+    df = df_hypotheses.copy()
+    # rearrange index
+
+    order = ["< 10", "10 - 49", "50 - 250", "> 250"]
+
+    df["initial_question_label"] = pd.Categorical(
+        df["initial_question_label"],
+        categories=order,
+        ordered=True
+    )
+
+    df = df.sort_values("initial_question_label").reset_index(drop=True)
+
+    fig = plot_diverging(df,ylabel=ylabel,show_n_in_labels=show_n_in_labels)
     return fig
 
 # ============================================================
@@ -116,13 +135,12 @@ def plot_diverging_h2(df_hypotheses: pd.DataFrame) -> plt.Figure:
 
     # feed into base plotter by renaming label
     s2 = df.rename(columns={"label": "label_orig"})
-    s2["label"] = s2["label_marked"]
+    s2["initial_question_label"] = s2["label_marked"]
 
     fig = plot_diverging(
         df_hypotheses=s2,
         ylabel="Branche (▲ hoch / ▼ niedrig / • unklar)",
     )
-
     return fig
 
 # ============================================================
@@ -143,7 +161,7 @@ def plot_netzdiagramm(
     values = s.values.astype(float).tolist()
 
     # OPTIONAL: _wrap_labels aus deinem plotting_function.py nutzen
-    labels_wrapped = helper._wrap_labels(labels)
+    labels_wrapped = helper._wrap_labels(labels,width=30,max_lines=3)
 
     n = len(labels_wrapped)
 
@@ -155,8 +173,10 @@ def plot_netzdiagramm(
     values_closed = values + values[:1]
 
     # --- 3) Plot ---
-    fig = plt.figure(figsize=cfg.FIGSIZE_NETZDIAGRAMM)
-    ax = fig.add_subplot(111, polar=True)
+    fig = plt.figure(figsize=cfg.FIGSIZE)
+    ax = fig.add_axes([0.15, 0.2, 0.7, 0.7], polar=True)
+
+
 
     ax.plot(angles_closed, values_closed, linewidth=2)
     ax.fill(angles_closed, values_closed, alpha=0.12)
@@ -165,6 +185,9 @@ def plot_netzdiagramm(
     ax.set_xticks(angles)
     ax.set_xticklabels(labels_wrapped)
 
+    #damit das Label nicht überlappen
+    ax.tick_params(axis='x', pad=38)
+
     # --- 5) Radius/Skalierung ---
     vmax = max(values) if values else 0
     rmax = int(np.ceil(vmax / r_step) * r_step) if vmax > 0 else r_step
@@ -172,11 +195,13 @@ def plot_netzdiagramm(
     ax.set_yticks(list(range(0, rmax + 1, r_step)))
     ax.set_yticklabels([str(v) for v in range(0, rmax + 1, r_step)])
 
-    ax.tick_params(labelsize=cfg.FONT_TICK)
+    ax.tick_params(labelsize=cfg.FONT_LEGEND_SIZE)
     ax.legend(fontsize=cfg.FONT_LEGEND_SIZE)
 
     for a, v in zip(angles, values):
-        ax.text(a, v + 0.6, f"{int(v)}", ha="center", va="center", fontsize=cfg.FONT_TICK)
+        ax.text(a, v +2, f"{int(v)}", ha="center", va="center", fontsize=10)
+
+    plt.show()
 
     return fig
 
@@ -213,7 +238,7 @@ def plot_hypotheses_and_save(
     # --- plotting_function_hypotheses ---
 
     # ------H1--------
-    fig = plot_diverging(
+    fig = plot_diverging_h1(
         df_hypotheses=df_hypotheses["H1"],
         ylabel="Anzahl der Beschäftigten",
         show_n_in_labels=False,
@@ -248,24 +273,24 @@ def plot_hypotheses_and_save(
         df_hypotheses=df_hypotheses["H4.1"],
     )
 
-    save(fig,caption_text="Hypothese 4 – Top-5 als stark bewertete Hemmnisse.(Q31)",
-         safe_name="Hypothese 4 – Top-5 als stark bewertete Hemmnisse.(Q31)")
+    save(fig,caption_text="Top-5 bewertete Hemmnisse für die Umsetzung von Kreislaufwirtschaft in Unternehmen.",
+         safe_name="Top-5 bewertete Hemmnisse für die Umsetzung von Kreislaufwirtschaft in Unternehmen.")
 
 
     # ------H4.2 ----------
     fig = plot_netzdiagramm(
         df_hypotheses=df_hypotheses["H4.2"] )
 
-    save(fig,caption_text="Hypothese 4 – Top-5 als stark bewertete Zustimmung.(Q32)",
-         safe_name="Hypothese 4 – Top-5 als stark bewertete Zustimmung.(Q32)")
+    save(fig,caption_text="Top-5 bewertete Zustimmung zur Aussage der Umsetzung von CE bezogen auf die Wettbewerbsfähigkeit",
+         safe_name="Top-5 bewertete Zustimmung zur Aussage der Umsetzung von CE bezogen auf die Wettbewerbsfähigkeit")
 
     #------H4.3 ----------
     fig = plot_netzdiagramm(
         df_hypotheses=df_hypotheses["H4.3"],
     )
 
-    save(fig,caption_text="Hypothese 4 – Top-5 als stark bewertete Hemmnisse.(Q33)",
-         safe_name="Hypothese 4 – Top-5 als stark bewertete Hemmnisse.(Q33)")
+    save(fig,caption_text="Top-5 der bewerteten Hemmnisse für die Elementen der Umsetzung zirkulärer Wertschöpfungsprozesse",
+         safe_name="Top-5 der bewerteten Hemmnisse für die Elementen der Umsetzung zirkulärer Wertschöpfungsprozesse")
 
     return out_paths, captions
 

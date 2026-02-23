@@ -183,7 +183,7 @@ def main() -> None:
 
     df_hypotheses = get_df_hypotheses(df_tidy,df_hypotheses_dict)
 
-    out_paths, captions = plot_hypotheses_and_save(df_hypotheses,out_dir=cfg.PLOTS_JG_DIR)
+    out_paths, captions = plot_hypotheses_and_save(df_hypotheses,out_dir=cfg.PLOTS_H_DIR)
 
     print("Saved figures:")
     for p in out_paths:
@@ -241,7 +241,9 @@ def main() -> None:
     df_tidy.to_csv(cfg.OUTPUT_DIR / "df_tidy.csv", index=False, encoding="utf-8-sig")
 
 if __name__ == "__main__":
- main()
+    main()
+
+
 
 
 
