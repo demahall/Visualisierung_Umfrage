@@ -2,7 +2,7 @@
 """
 Central styling + brand colors for uniform plotting.
 
-Call apply_style() once in main.py BEFORE you create any plots.
+Call apply_style() once in main.py BEFORE you create any plotting_function_jg_analyse.
 """
 
 from __future__ import annotations
@@ -10,11 +10,29 @@ from __future__ import annotations
 from pathlib import Path
 import matplotlib as mpl
 
+#--------------------
+# Input config
+#--------------------
+
+EXCEL_PATH = Path("new_survey_result.xlsx")
+FIRST_QUESTION_TEXT = "Welcher Art von Organisation gehören Sie an?"
+SPEC_PATH = Path("question_spec.json")
+
 # -----------------------------
-# Output
+# Output config
 # -----------------------------
-OUTPUT_DIR = Path("../../plots")
+BASE_DIR = Path("/Users/buayaguruun21/PycharmProjects/Visualisierung_Umfrage/plotting_output") #CHANGE THIS
+
+OUTPUT_DIR = BASE_DIR / "plotting_output"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+PLOTS_Q_DIR = OUTPUT_DIR / "plots_all_question"
+PLOTS_H_DIR = OUTPUT_DIR / "hypotheses"
+PLOTS_JG_DIR = OUTPUT_DIR / "jg_analyse"
+
+PLOTS_Q_DIR.mkdir(parents=True, exist_ok=True)
+PLOTS_H_DIR.mkdir(parents=True, exist_ok=True)
+PLOTS_JG_DIR.mkdir(parents=True, exist_ok=True)
 
 SAVE_FORMAT = "svg"
 SAVE_DPI = 300
@@ -28,7 +46,7 @@ SAVE_PAD_INCHES = 0.0
 # Figure sizes (consistent)
 # -----------------------------
 
-FIGSIZE = (11.0, 9.0)     # many categories horizontal (more height)
+FIGSIZE = (13.0, 9.0)
 
 # For donut plot
 FIGSIZE_DONUT = FIGSIZE
@@ -59,7 +77,7 @@ ACATECH_LIGHTBLUE  = "#93BBDC"  # (147,187,220)
 ACATECH_GREEN_ALT  = "#8EB923"  # (142,185,35)
 ACATECH_YELLOW     = "#F9C803"  # (249,200,3)
 
-# A good categorical palette for plots (cycle)
+# A good categorical palette for plotting_function_jg_analyse (cycle)
 # (Use blue/green as primary; others as accents)
 PALETTE = [
     ACATECH_BLUE,
@@ -83,7 +101,7 @@ TINTS_YELLOW = ["#F9C803", "#FAD862", "#FAE295", "#FBE9B6", "#FBEECC", "#FCF4DF"
 # Typography & styling
 # -----------------------------
 
-# --- fixed typography (uniform for all plots) ---
+# --- fixed typography (uniform for all plotting_function_jg_analyse) ---
 FONT_BASE = 10
 FONT_AXIS_LABEL = 10
 FONT_TICK = 8
@@ -91,8 +109,8 @@ FONT_BAR_LABEL = 8
 FONT_CAPTION = 11
 
 # caption wrapping
-CAPTION_WRAP_WIDTH = 65   # characters per line
-CAPTION_Y = 0.04          # move caption slightly up
+CAPTION_WRAP_WIDTH = 80   # characters per line
+CAPTION_Y = 0.1          # move caption slightly up
 CAPTION_LINE_SPACING = 1.1
 
 #Font Caption
@@ -102,6 +120,14 @@ LABEL_PCT_DECIMALS = 0           # labels on bars
 AXIS_PCT_DECIMALS = 0            # axis ticks
 CAPTION_FONTSIZE = 11
 FONT_LEGEND_SIZE = 8
+
+
+#Horinzontale Bar config
+
+HBAR_GROUP_GAP = 1      # space between dimensions (increase for more gap)
+HBAR_INNER_GAP = 0.45    # space between GU & KMU (small)
+HBAR_BAR_HEIGHT = 0.35    # thinner bars
+
 
 STYLE = {
     # Fonts

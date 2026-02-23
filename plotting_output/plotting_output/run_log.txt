@@ -1,0 +1,54 @@
+Run started: 2026-02-23 01:10:15
+Log file: /Users/buayaguruun21/PycharmProjects/Visualisierung_Umfrage/plotting_output/plotting_output/run_log.txt
+------------------------------------------------------------------------------------------
+Excel: /Users/buayaguruun21/PycharmProjects/Visualisierung_Umfrage/new_survey_result.xlsx
+Spec:  /Users/buayaguruun21/PycharmProjects/Visualisierung_Umfrage/question_spec.json
+Output:/Users/buayaguruun21/PycharmProjects/Visualisierung_Umfrage/plotting_output/plotting_output
+Catalog entries: 43
+
+=== PLOTTING QUESTIONS ===
+[OK]          | Abbildung 1 | type=single | plot= | saved=1 | 01_Welcher_Art_von_Organisation_gehören_Sie_an_.svg
+[OK]          | Abbildung 2 | type=single | plot=donut | saved=1 | 02_Wie_viele_Beschäftigte_hat_Ihr_Unternehmen_.svg
+[OK]          | Abbildung 3 | type=single | plot=donut | saved=1 | 03_Wie_hoch_ist_der_jährliche_Umsatz_Ihres_Unternehmens_.svg
+[OK]          | Abbildung 4 | type=checkbox | plot= | saved=1 | 04_In_welcher_Branche_ordnen_Sie_Ihre_Tätigkeit_ein_.svg
+[OK]          | Abbildung 5 | type=single | plot= | saved=1 | 05_Welche_Position_haben_Sie_im_Unternehmen_.svg
+[OK]          | Abbildung 6 | type=single | plot= | saved=1 | 06_Wie_ist_die_Fertigung_in_Ihrem_Tätigkeitsfeld_organisiert_.svg
+[OK]          | Abbildung 7 | type=single | plot=donut | saved=1 | 07_Wie_ordnen_Sie_die_monatliche_Stückzahl_Ihrer_Fertigung_ein_.svg
+[OK]          | Abbildung 8 | type=single | plot=donut | saved=1 | 08_Wie_wird_sich_aus_Ihrer_Sicht_die_Produktion_in_Deutschland_.svg
+[OK]          | Abbildung 9 | type=single | plot=donut | saved=1 | 09_Wie_wird_sich_aus_Ihrer_Sicht_der_Personalbestand_in_Ihrem_T.svg
+[OK]          | Abbildung 10 | type=single | plot=donut | saved=1 | 10_Wo_wird_von_Ihrem_Unternehmen_in_Ihrem_Tätigkeitsfeld_zukünf.svg
+[OK]          | Abbildung 11 | type=single | plot=donut | saved=1 | 11_Wird_in_Ihrem_Unternehmen_Kreislaufwirtschaft_bereits_umgese.svg
+[OK]          | Abbildung 12 | type=likert | plot=donut | saved=1 | 12_Wie_schätzen_Sie_Ihre_Kenntnisse_im_Themenfeld_der_Kreislauf.svg
+[OK]          | Abbildung 13 | type=matrix | plot= | saved=1 | 13_Welche_der_nachfolgend_aufgeführten_Punkte_sind_für_Ihr_Unte.svg
+[OK]          | Abbildung 14 | type=matrix | plot= | saved=1 | 14_Sind_die_folgenden_Aspekte_in_Ihrem_Unternehmen_im_Bereich_d.svg
+[OK]          | Abbildung 15 | type=single | plot= | saved=1 | 15_Handelt_es_sich_bei_den_rückgeführten_Produkten_um_Produkte_.svg
+[OK]          | Abbildung 16 | type=single | plot= | saved=1 | 16_Wie_wird_derzeit_in_Ihrem_Unternehmen_überwiegend_mit_Teilen.svg
+[SKIP text]   | Abbildung 17 | Welche Produkte werden aktuell oder künftig wiederaufbereitet und wo liegt deren Wert typischerweise?
+[OK]          | Abbildung 18 | type=matrix | plot=donut | saved=11 | 18a_Bitte_bewerten_Sie__inwieweit_Daten_in_Ihrem_Unernehmen_erfa__Automatisierungstechnik_z_B__Robotik__Steuerungstechnik__Han.svg
+[OK]          | Abbildung 19 | type=matrix | plot=donut | saved=10 | 19a_Welche_der_nachfolgenden_Industrie_4_0_-_Technologien_werden___Autonome__Robotik_z__B__Fahrerlose_Transportsysteme__Indust.svg
+[SKIP text]   | Abbildung 20 | Weitere Technologie:
+[SKIP text]   | Abbildung 21 | Weitere Technologie:.1
+[OK]          | Abbildung 22 | type=matrix | plot=donut | saved=3 | 22a_Auf_welcher_kleinsten_Ebene_wird_der_Einsatz_der_folgenden_E__Druckluft.svg
+[OK]          | Abbildung 23 | type=matrix | plot=donut | saved=2 | 23a_Auf_welcher_kleinsten_Ebene_werden_Verbrauchsmaterialien__Be__Abfälle.svg
+[OK]          | Abbildung 24 | type=matrix | plot= | saved=1 | 24_Stimmen_Sie_nachfolgenden_Aussagen_zur_Digitalisierung_und_Q.svg
+[OK]          | Abbildung 25 | type=matrix | plot= | saved=1 | 25_Stimmen_Sie_nachfolgenden_Aspekten_im_Kontext_des_Produktdes.svg
+[OK]          | Abbildung 26 | type=matrix | plot= | saved=1 | 26_Stimmen_Sie_nachfolgenden_Aspekten_im_Kontext_der__Rückführu.svg
+[OK]          | Abbildung 27 | type=matrix | plot= | saved=1 | 27_Stimmen_Sie_nachfolgenden_Aspekten_im_Bereich_der_Demontage_.svg
+[OK]          | Abbildung 28 | type=matrix | plot=donut | saved=9 | 28a_Welche_der_nachfolgenden_Nutzenpotenziale_erachten_Sie_als_e__Entwicklung_neuer_Geschäftsmodelle_durch_Erschließung_neuer_.svg
+[SKIP text]   | Abbildung 29 | Weiteres Nutzenpotenzial:
+[OK]          | Abbildung 30 | type=single | plot= | saved=1 | 30_Welche_Erfahrungen_hat_Ihr_Unternehmen_mit_der_Zahlungsberei.svg
+[OK]          | Abbildung 31 | type=matrix | plot=donut | saved=8 | 31a_Welche_der_nachfolgenden_Industrie_4_0_-_Technologien_generi__Traceability_-_Technologien_z__B__RFID__Barcode__QR_-_Code_.svg
+[OK]          | Abbildung 32 | type=single | plot= | saved=1 | 32_In_welchen_Lebenszyklusphasen_bzw__Elementen_des_zirkulären_.svg
+[OK]          | Abbildung 33 | type=single | plot= | saved=1 | 33_Welche_konkreten_Mehrwerte_versprechen_Sie_sich_durch_den_Ei.svg
+[OK]          | Abbildung 34 | type=matrix | plot=donut | saved=16 | 34a_In_welchem_Maß_stellen_die_folgenden_Punkte_ein_Hemmnis_für___Daten_aus_der_Lieferkette__Kunden__Lieferanten__nur_schwer_z.svg
+[OK]          | Abbildung 35 | type=matrix | plot=donut | saved=10 | 35a_Inwieweit_stimmen_Sie_folgenden_Aussagen_zur_Umsetzung_von_K___Die_Einführung_von_Rücknahme_-___Recycling_-_und_Nachweissy.svg
+[OK]          | Abbildung 36 | type=matrix | plot=donut | saved=9 | 36a_In_welchen_Lebenszyklusphasen_bzw__Elementen_des_zirkulären___Aufbereitung__amp__Verwertung.svg
+[OK]          | Abbildung 37 | type=single | plot= | saved=1 | 37_Haben_Sie_Interesse__an_öffentlich_geförderten_Forschungspro.svg
+[OK]          | Abbildung 38 | type=checkbox | plot= | saved=1 | 38_Bitte_spezifizieren_Sie_den_oder_die_Fördermittelträger_des_.svg
+[OK]          | Abbildung 39 | type=checkbox | plot= | saved=1 | 39_In_welchen_Bereichen_sehen_Sie_Verbesserungspotenzial_bei_öf.svg
+[OK]          | Abbildung 40 | type=matrix | plot=donut | saved=10 | 40a_Wie_bewerten_Sie_die_Wirksamkeit_der_folgenden_öffentlichen___Aufbereitung_von_Best_Practices.svg
+[OK]          | Abbildung 41 | type=single | plot=donut | saved=1 | 41_Haben_Sie_Interesse_an_einem_weiterführenden_Gespräch_teilzu.svg
+[OK]          | Abbildung 42 | type=single | plot= | saved=1 | 42_Haben_Sie_Interesse_an_den_Ergebnissen_dieser_Studie__In_die.svg
+[OK]          | Abbildung 43 | type=single | plot= | saved=1 | 43_Geben_Sie_bitte_Ihre_E_-_Mail_-_Adresse_an__damit_wir_Sie_er.svg
+
+=== PLOTTING HYPOTHESES ===

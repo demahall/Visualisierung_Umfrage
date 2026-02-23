@@ -1,0 +1,49 @@
+Abbildung 1: Welcher Art von Organisation gehören Sie an?
+Abbildung 2: Wie viele Beschäftigte hat Ihr Unternehmen?
+Abbildung 3: Wie hoch ist der jährliche Umsatz Ihres Unternehmens?
+Abbildung 4: In welcher Branche ordnen Sie Ihre Tätigkeit ein?
+Abbildung 5: Welche Position haben Sie im Unternehmen?
+Abbildung 6: Wie ist die Fertigung in Ihrem Tätigkeitsfeld organisiert?
+Abbildung 7: Wie ordnen Sie die monatliche Stückzahl Ihrer Fertigung ein?
+Abbildung 8: Wie wird sich aus Ihrer Sicht die Produktion in Deutschland innerhalb Ihres Tätigkeitsfelds in den kommenden drei Jahren entwickeln?
+Abbildung 9: Wie wird sich aus Ihrer Sicht der Personalbestand in Ihrem Tätigkeitsfeld an deutschen Produktionsstandorten in den nächsten drei Jahren entwickeln?
+Abbildung 10: Wo wird von Ihrem Unternehmen in Ihrem Tätigkeitsfeld zukünftig überwiegend in die Produktion investiert?
+Abbildung 11: Wird in Ihrem Unternehmen Kreislaufwirtschaft bereits umgesetzt?
+Abbildung 12: Wie schätzen Sie Ihre Kenntnisse im Themenfeld der Kreislaufwirtschaft ein?
+Abbildung 13: Welche der nachfolgend aufgeführten Punkte sind für Ihr Unternehmen zutreffend?
+Abbildung 14: Sind die folgenden Aspekte in Ihrem Unternehmen im Bereich der Aufbereitung und Remontage umgesetzt?
+Abbildung 15: Handelt es sich bei den rückgeführten Produkten um Produkte, die Ihr Unternehmen ursprünglich in Umlauf gebracht hat oder auch um Fremdprodukte?
+Abbildung 16: Wie wird derzeit in Ihrem Unternehmen überwiegend mit Teilen, die durch die Qualitätsprüfung als "Nicht in Ordnung" eingestuft werden, umgegangen?
+Abbildung 17: Welche Produkte werden aktuell oder künftig wiederaufbereitet und wo liegt deren Wert typischerweise?
+Abbildung 18: Bitte bewerten Sie, inwieweit Daten in Ihrem Unernehmen erfasst und genutzt werden.
+Abbildung 19: Welche der nachfolgenden Industrie 4.0 - Technologien werden derzeit in Ihrem Unternehmen eingesetzt und welche sind zukünftig in Planung?
+Abbildung 20: Weitere Technologie:
+Abbildung 21: Weitere Technologie:.1
+Abbildung 22: Auf welcher kleinsten Ebene wird der Einsatz der folgenden Energieträger kontinuierlich in Ihrem Unternehmen erfasst?
+Abbildung 23: Auf welcher kleinsten Ebene werden Verbrauchsmaterialien, Betriebsstoffe und Abfälle in Ihrem Unternehmen erfasst?
+Abbildung 24: Stimmen Sie nachfolgenden Aussagen zur Digitalisierung und Quantifizierung zirkulärer Wertschöpfungsprozesse zu?
+Abbildung 25: Stimmen Sie nachfolgenden Aspekten im Kontext des Produktdesigns in Ihrem Unternehmen zu?
+Abbildung 26: Stimmen Sie nachfolgenden Aspekten im Kontext der (Rückführungs - )Logistik und Materialbereitstellung in Ihrem Unternehmen zu?
+Abbildung 27: Stimmen Sie nachfolgenden Aspekten im Bereich der Demontage und Befundung in Ihrem Unternehmen zu?
+Abbildung 28: Welche der nachfolgenden Nutzenpotenziale erachten Sie als entscheidenden Motivator zur Umsetzung zirkulärer Wertschöpfungsprozesse?
+Abbildung 29: Weiteres Nutzenpotenzial:
+Abbildung 30: Welche Erfahrungen hat Ihr Unternehmen mit der Zahlungsbereitschaft von Kunden für aufbereitete, aber funktionsfähige Produkte im Vergleich zu Neuprodukten gemacht bzw. wie schätzen Sie diese ein?
+Abbildung 31: Welche der nachfolgenden Industrie 4.0 - Technologien generieren für Sie einen Mehrwert bei der Umsetzung zirkulärer Wertschöpfungsprozesse?
+Abbildung 32: In welchen Lebenszyklusphasen bzw. Elementen des zirkulären Wertschöpfungsprozesses erwarten Sie den größten Mehrwert durch Industrie 4.0 - Technologien? (Mehrfachauswahl möglich) 1. Geschäftsmodelle 2. Produktdesign 3. Herstellung von Neuprodukten 4. Produktionssteuerung 5. Produktnutzung 6. Rückführungslogistik und Materialbereitstellung 7. Demontage und Befundung 8. Aufbereitung 9. Remontage 10. Qualitätsprüfung
+Abbildung 33: Welche konkreten Mehrwerte versprechen Sie sich durch den Einsatz von Industrie 4.0 - Technologien?
+Abbildung 34: In welchem Maß stellen die folgenden Punkte ein Hemmnis für die Umsetzung von Kreislaufwirtschaft in Ihrem Unternehmen dar?
+Abbildung 35: Inwieweit stimmen Sie folgenden Aussagen zur Umsetzung von Kreislaufwirtschaft bezogen auf die Wettbewerbsfähigkeit aus der Sicht Ihres Unternehmens zu?
+Abbildung 36: In welchen Lebenszyklusphasen bzw. Elementen des zirkulären Wertschöpfungsprozesses sehen Sie die größten Hemmnisse für die Umsetzung zirkulärer Wertschöpfungsprozesse?
+Abbildung 37: Haben Sie Interesse, an öffentlich geförderten Forschungsprojekten teilzunehmen oder haben Sie in der Vergangenheit teilgenommen?
+Abbildung 38: Bitte spezifizieren Sie den oder die Fördermittelträger des Projekts, an dem Sie teilgenommen / auf das Sie sich beworben haben.
+Abbildung 39: In welchen Bereichen sehen Sie Verbesserungspotenzial bei öffentlichen Fördermaßnahmen?
+Abbildung 40: Wie bewerten Sie die Wirksamkeit der folgenden öffentlichen Maßnahmen und deren Ergebnisse für die Förderung der Umsetzung zirkulärer Wertschöpfungsprozesse in Ihrem Unternehmen?
+Abbildung 41: Haben Sie Interesse an einem weiterführenden Gespräch teilzunehmen?
+Abbildung 42: Haben Sie Interesse an den Ergebnissen dieser Studie? In diesem Fall werden Ihnen die Ergebnisse nach Abschluss der Studie per E - Mail zugesendet.
+Abbildung 43: Geben Sie bitte Ihre E - Mail - Adresse an, damit wir Sie erreichen können.
+Abbildung 44: Hypothese 1 – Größere Unternehmen setzen häufiger bereits Kreislaufwirtschaft um als kleine Unternehmen.
+Abbildung 45: Hypothese 2 – Branchen mit hohen Materialkosten sind eher bereit, Kreislaufwirtschaft umzusetzen als Branchen mit geringeren Materialkosten.
+Abbildung 46: Hypothese 3 – Kleinserien oder Einzelanfertigungen eignen sich für die Wiederaufbereitung eher als Großserienprodukte.
+Abbildung 46: 46
+Abbildung 46: 46
+Abbildung 46: 46

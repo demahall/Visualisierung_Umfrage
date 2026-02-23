@@ -13,7 +13,6 @@ import src.plotting.plotting_helper as helper
 import string
 
 
-
 # -----------------------------
 # Plot types
 # -----------------------------
@@ -49,20 +48,20 @@ def plot_single_percent_bar(
     if use_horizontal:
 
         # wrap FIRST, then compute margin so labels never get cut
-        wrapped = helper.wrap_labels(labels)
+        wrapped = helper._wrap_labels(labels)
         left = helper._left_margin_for_labels(wrapped, base=0.22, per_char=0.0040, cap=0.48)
 
         y = np.arange(len(labels))
         ax.barh(y, pcts, color=cfg.PALETTE[0])
         ax.set_yticks(y)
-        ax.set_yticklabels(helper.wrap_labels(labels, width=18))
-        ax.set_xlabel("Anteil (%)")
+        ax.set_yticklabels(helper._wrap_labels(labels, width=18))
+        ax.set_xlabel("Anteil der Teilnehmer in %")
 
         xmax = max(5, float(np.nanmax(pcts)) * 1.15)
         ax.set_xlim(0, xmax)
         ax.xaxis.set_major_formatter(mtick.PercentFormatter(xmax=100, decimals=0))
 
-        # smaller fonts for many-category plots
+        # smaller fonts for many-category plotting_function_jg_analyse
         ax.tick_params(axis="y", labelsize=cfg.FONT_TICK)
         ax.tick_params(axis="x", labelsize=cfg.FONT_TICK)
 
@@ -79,8 +78,8 @@ def plot_single_percent_bar(
     x = np.arange(len(labels))
     ax.bar(x, pcts, color=cfg.PALETTE[0])
     ax.set_xticks(x)
-    ax.set_xticklabels(helper.wrap_labels(labels, width=14), rotation=0, ha="center")
-    ax.set_ylabel("Anteil (%)")
+    ax.set_xticklabels(helper._wrap_labels(labels, width=14), rotation=0, ha="center")
+    ax.set_ylabel("Anteil der Teilnehmer in %")
 
     ymax = max(5, float(np.nanmax(pcts)) * 1.20)
     ax.set_ylim(0, ymax)
@@ -139,14 +138,14 @@ def plot_checkbox_percent_bar(
         y = np.arange(len(labels))
         ax.barh(y, pcts, color=cfg.PALETTE[0])
         ax.set_yticks(y)
-        ax.set_yticklabels(helper.wrap_labels(labels, width=18))
+        ax.set_yticklabels(helper._wrap_labels(labels, width=18))
         ax.set_xlabel("Anteil der Nennungen (%)")
 
         xmax = max(5, float(np.nanmax(pcts)) * 1.15)
         ax.set_xlim(0, xmax)
         ax.xaxis.set_major_formatter(mtick.PercentFormatter(xmax=100, decimals=0))
 
-        # smaller fonts for many-category plots
+        # smaller fonts for many-category plotting_function_jg_analyse
         ax.tick_params(axis="y", labelsize=cfg.FONT_TICK)
         ax.tick_params(axis="x", labelsize=cfg.FONT_TICK)
 
@@ -161,7 +160,7 @@ def plot_checkbox_percent_bar(
         x = np.arange(len(labels))
         ax.bar(x, pcts, color=cfg.PALETTE[0])
         ax.set_xticks(x)
-        ax.set_xticklabels(helper.wrap_labels(labels, width=18), rotation=0, ha="center")
+        ax.set_xticklabels(helper._wrap_labels(labels, width=18), rotation=0, ha="center")
         ax.set_ylabel("Anteil der Nennungen (%)")
 
         ymax = max(5, float(np.nanmax(pcts)) * 1.20)
@@ -196,7 +195,7 @@ def plot_matrix_stacked_percent(
 
     Features:
       - % label inside segment when >= label_min_pct
-      - y labels wrapped via wrap_labels()
+      - y labels wrapped via _wrap_labels()
       - legend fixed top-right inside axes
       - text color
       """
@@ -275,12 +274,12 @@ def plot_matrix_stacked_percent(
     # y labels (wrapped)
     labels = pivot_pct.index.astype(str).tolist()
     ax.set_yticks(y)
-    ax.set_yticklabels(helper.wrap_labels(labels, width=18))
+    ax.set_yticklabels(helper._wrap_labels(labels, width=18))
 
     # x axis percent
     ax.set_xlim(0, 100)
     ax.xaxis.set_major_formatter(mtick.PercentFormatter(xmax=100, decimals=0))
-    ax.set_xlabel("Anteil (%)")
+    ax.set_xlabel("Anteil der Teilnehmer in %")
 
     # grid + style
     ax.grid(axis="x", alpha=0.25)
@@ -319,7 +318,7 @@ def plot_donut_single(
 
     # ✅ add_axes controls layout; subplots_adjust is not needed
     ax = fig.add_axes([cfg.AX_BOX_LEFT, cfg.AX_BOX_BOTTOM, cfg.AX_BOX_WIDTH, cfg.AX_BOX_HEIGHT])
-    helper._donut_one(ax, labels=helper.wrap_labels(labels, width=28), pcts=pcts)
+    helper._donut_one(ax, labels=helper._wrap_labels(labels, width=28), pcts=pcts)
 
     return fig
 
@@ -409,189 +408,6 @@ def plot_donut_matrix_split(
     return figs
 
 
-# ============================================================
-# Plot for H1,H3
-# ============================================================
-def plot_diverging_yes_no(
-    summary: pd.DataFrame,
-    *,
-    title: Optional[str] = None,
-    ylabel: Optional[str] = None,
-    sort_by_yes: bool = False,
-    wrap_width: int = 26,
-    show_n_in_labels: bool = False,
-) -> plt.Figure:
-    """
-    Creates a diverging horizontal bar plot:
-      left  = NO (negative)
-      right = YES (positive)
-    Ticks shown as 0..100% on both sides (abs formatter).
-    Legend outside top-right like your "single question" plots.
-    """
-    s = summary.copy()
-
-    if sort_by_yes:
-        s = s.sort_values("yes_pct", ascending=False)
-    # else keep original order
-
-    labels_raw = s["label"].astype(str).tolist()
-    labels = helper.wrap_labels(labels_raw, width=wrap_width, max_lines=4)
-
-    if show_n_in_labels:
-        labels = [f"{lab} (n={n})" for lab, n in zip(labels, s["base_n"].tolist())]
-
-    yes = s["yes_pct"].to_numpy(float)
-    no  = s["no_pct"].to_numpy(float)
-
-    y = np.arange(len(labels))
-
-    fig = plt.figure(figsize=cfg.FIGSIZE)
-    ax = fig.add_axes([cfg.AX_BOX_LEFT, cfg.AX_BOX_BOTTOM, cfg.AX_BOX_WIDTH, cfg.AX_BOX_HEIGHT])
-
-    # bars
-    ax.barh(y, -no, color=cfg.PALETTE[1], label="noch nicht umgesetzt")
-    ax.barh(y,  yes, color=cfg.PALETTE[0], label="bereits umgesetzt")
-
-    # middle line
-    ax.axvline(0, color=cfg.PALETTE[0], lw=1.2, alpha=0.8)
-
-    ax.set_yticks(y)
-    ax.set_yticklabels(labels)
-    ax.invert_yaxis()
-
-    # axis label + ticks like 0..100% both sides
-    ax.set_xlabel("Anteil (%)")
-    if ylabel:
-        ax.set_ylabel(ylabel)
-
-    ax.set_xlim(-100, 100)
-    ax.set_xticks(np.arange(-100, 101, 25))
-    ax.xaxis.set_major_formatter(mtick.FuncFormatter(lambda v, _: f"{abs(int(v))}%"))
-
-    # fonts (closer to your other plots)
-    ax.tick_params(axis="x", labelsize=cfg.FONT_TICK)
-    ax.tick_params(axis="y", labelsize=cfg.FONT_TICK)
-
-    # text on bars (pct + (n))
-    for i, (yp, npct, yn, nn) in enumerate(zip(yes, no, s["yes_n"], s["no_n"])):
-        if npct > 0:
-            ax.text(-npct/2, i, f"{npct:.0f}%\n({int(nn)})", va="center", ha="center", fontsize=cfg.FONT_TICK)
-        if yp > 0:
-            ax.text( yp/2, i, f"{yp:.0f}%\n({int(yn)})", va="center", ha="center", fontsize=cfg.FONT_TICK)
-
-    # grid
-    ax.grid(axis="x", alpha=0.18)
-    ax.set_axisbelow(True)
-
-    # title (optional)
-    if title:
-        ax.set_title(title, fontsize=cfg.FONT_TITLE)
-
-    # legend outside (top-right) like your stacked bar example
-    ax.legend(
-        loc="upper left",
-        bbox_to_anchor=(1.02, 1.0),
-        frameon=False,
-        fontsize=cfg.FONT_TICK,
-    )
-
-    # give room for legend and wrapped ylabels
-    fig.subplots_adjust(left=0.25, right=0.80, top=0.92, bottom=0.18)
-
-    return fig
-
-# ============================================================
-# Plot for H2
-# ============================================================
-def plot_diverging_yes_no_h2(
-    summary: pd.DataFrame,
-    *,
-    title: Optional[str] = None,
-    wrap_width: int = 24,
-) -> plt.Figure:
-    s = helper._add_material_cost_group(summary)
-
-    # sort: high first, then low, then other; inside group by yes_pct desc
-    order_map = {"Hohe Materialkosten": 0, "Geringe Materialkosten": 1, "Sonstige/unklar": 2}
-    s["_grp"] = s["cost_group"].map(order_map).fillna(9)
-    s = s.sort_values(["_grp", "yes_pct"], ascending=[True, False]).drop(columns=["_grp"])
-
-    # feed into base plotter by renaming label
-    s2 = s.rename(columns={"label": "label_orig"})
-    s2["label"] = s2["label_marked"]
-
-    fig = plot_diverging_yes_no(
-        s2,
-        title=title,
-        ylabel="Branche (▲ hoch / ▼ niedrig / • unklar)",
-        sort_by_yes=False,
-        wrap_width=wrap_width,
-        show_n_in_labels=False,
-    )
-    return fig
-
-# ============================================================
-# Plot H4
-# ============================================================
-def plot_radar_counts_topk(
-    counts: "pd.Series",
-    title: str = "",
-    k: int = 5,
-    wrap_width: int = 26,
-    r_step: int = 5,
-):
-    # --- 1) Top-k auswählen (und NaNs absichern) ---
-    s = counts.dropna().sort_values(ascending=False)
-    if k is not None:
-        s = s.head(k)
-
-    labels = s.index.astype(str).tolist()
-    values = s.values.astype(float).tolist()
-
-    # OPTIONAL: wrap_labels aus deinem plotting_function.py nutzen
-    labels_wrapped = helper.wrap_labels(labels, width=wrap_width, max_lines=4)
-
-    n = len(labels_wrapped)
-    if n == 0:
-        raise ValueError("Radar: keine Daten (n=0). Prüfe strong_set / question_text.")
-
-    # --- 2) Angles passend zu Top-k bauen ---
-    angles = np.linspace(0, 2 * np.pi, n, endpoint=False).tolist()
-
-    # Close polygon
-    angles_closed = angles + angles[:1]
-    values_closed = values + values[:1]
-
-    # --- 3) Plot ---
-    fig = plt.figure(figsize=cfg.FIGSIZE)  # gleiche FIGSIZE wie deine anderen Plots
-    ax = fig.add_subplot(111, polar=True)
-
-    ax.plot(angles_closed, values_closed, linewidth=2)
-    ax.fill(angles_closed, values_closed, alpha=0.12)
-
-    # --- 4) Ticks/Labels: EXACT MATCH ---
-    ax.set_xticks(angles)
-    ax.set_xticklabels(labels_wrapped)
-
-    # --- 5) Radius/Skalierung ---
-    vmax = max(values) if values else 0
-    rmax = int(np.ceil(vmax / r_step) * r_step) if vmax > 0 else r_step
-    ax.set_ylim(0, rmax)
-    ax.set_yticks(list(range(0, rmax + 1, r_step)))
-    ax.set_yticklabels([str(v) for v in range(0, rmax + 1, r_step)])
-
-    # --- 6) Values an jede Achse schreiben (Betreuer will Counts!) ---
-    for a, v in zip(angles, values):
-        ax.text(a, v + 0.6, f"{int(v)}", ha="center", va="center", fontsize=cfg.FONT_TICK)
-
-    # Title optional (du wolltest bei H4: kein Titel, nur Caption unten)
-    if title:
-        ax.set_title(title, fontsize=cfg.FONT_TITLE, pad=12)
-
-    # Kreis kleiner wirken lassen (mehr Weißraum)
-    fig.subplots_adjust(left=0.16, right=0.84, top=0.88, bottom=0.20)
-
-    return fig
 
 # -----------------------------
 # Router (select plot function by q["type"])
@@ -702,9 +518,9 @@ def plot_question_and_save(
         fig = result
 
         cap = f"Abbildung {prefix_index}: {caption_text}" if prefix_index is not None else f"Abbildung: {caption_text}"
-        helper.add_caption(fig, cap)
+        helper._add_caption(fig, cap)
 
-        safe = helper.make_filename_safe(q["question_text"])
+        safe = helper._make_filename_safe(q["question_text"])
         filename = f"{prefix_index:02d}_{safe}.{cfg.SAVE_FORMAT}" if prefix_index is not None else f"{safe}.{cfg.SAVE_FORMAT}"
 
         out_path = out_dir / filename
@@ -738,10 +554,10 @@ def plot_question_and_save(
                 cap = f"Abbildung: {caption_text} – {item_label}"
                 filename_prefix = ""
 
-            helper.add_caption(fig, cap)
+            helper._add_caption(fig, cap)
 
-            safe_q = helper.make_filename_safe(q["question_text"])
-            safe_item = helper.make_filename_safe(item_label)
+            safe_q = helper._make_filename_safe(q["question_text"])
+            safe_item = helper._make_filename_safe(item_label)
             filename = f"{filename_prefix}{safe_q}__{safe_item}.{cfg.SAVE_FORMAT}"
             out_path = out_dir / filename
 
@@ -752,112 +568,3 @@ def plot_question_and_save(
 
     return out_paths
 
-def plot_hypotheses_and_save(
-    df_tidy: pd.DataFrame,
-    out_dir: Path,
-    *,
-    q_ce: str,
-    q_h1_group: str,
-    q_h2_industry: str,
-    q_h3_group: str,
-    q_h4_block_1: str,
-    q_h4_block_2: str,
-    q_h4_block_3: str,
-    h4_topk: int = 5,
-    strong_hemmnis: set[str] | None = None,
-    strong_zustimmung: set[str] | None = None,
-    start_abbildung_index: int | None = None,
-) -> Tuple[List[Path], List[str]]:
-
-
-    out_dir = Path(out_dir) / "hypothesen"
-    out_dir.mkdir(parents=True, exist_ok=True)
-
-    saved: List[Path] = []
-    captions: List[str] = []
-
-    abb = start_abbildung_index
-
-    def _next_caption(text: str) -> str:
-        nonlocal abb
-        if abb is None:
-            return f"Abbildung: {text}"
-        abb += 1
-        return f"Abbildung {abb}: {text}"
-
-
-    # --- H1 ---
-    h1 = helper._summarize_diverging(df_tidy, q_h1_group, q_ce)
-    fig = plot_diverging_yes_no(
-        h1,
-        title="H1: Unternehmensgröße vs. CE umgesetzt",
-        ylabel="Anzahl der Beschäftigten",
-        sort_by_yes=False,
-        wrap_width=22,
-        show_n_in_labels=False,
-    )
-    cap = _next_caption("Hypothese 1 – Größere Unternehmen setzen häufiger bereits Kreislaufwirtschaft um als kleine Unternehmen.")
-    helper.add_caption(fig, cap)
-    p = out_dir / "H1_diverging.png"
-    fig.savefig(p, dpi=300)
-    plt.close(fig)
-    saved.append(p); captions.append(cap)
-
-    # --- H2 ---
-    h2 = helper._summarize_diverging_multiselect(df_tidy, q_h2_industry, q_ce)
-    fig = plot_diverging_yes_no_h2(
-        h2,
-        title="H2: Branche vs. CE umgesetzt (Mehrfachauswahl)",
-        wrap_width=22,
-    )
-    cap = _next_caption("Hypothese 2 – Branchen mit hohen Materialkosten sind eher bereit, Kreislaufwirtschaft umzusetzen als Branchen mit geringeren Materialkosten.")
-    helper.add_caption(fig, cap)
-    p = out_dir / "H2_diverging.png"
-    fig.savefig(p, dpi=300)
-    plt.close(fig)
-    saved.append(p); captions.append(cap)
-
-    # --- H3 ---
-    h3 = helper._summarize_diverging(df_tidy, q_h3_group, q_ce)
-    fig = plot_diverging_yes_no(
-        h3,
-        title="H3: Seriengröße vs. CE umgesetzt",
-        ylabel="Monatliche Stückzahl",
-        sort_by_yes=False,
-        wrap_width=24,
-        show_n_in_labels=False,
-    )
-    cap = _next_caption("Hypothese 3 – Kleinserien oder Einzelanfertigungen eignen sich für die Wiederaufbereitung eher als Großserienprodukte.")
-    helper.add_caption(fig, cap)
-    p = out_dir / "H3_diverging.png"
-    fig.savefig(p, dpi=300)
-    plt.close(fig)
-    saved.append(p); captions.append(cap)
-
-    # --- H4  ---
-    h4_blocks = [
-        ("H4_1", q_h4_block_1, strong_hemmnis, "Hypothese 4 – Top-5 als stark bewertete Hemmnisse (Block 1)."),
-        ("H4_2", q_h4_block_2, strong_zustimmung, "Hypothese 4 – Top-5 als stark bewertete Zustimmung (Block 2)."),
-        ("H4_3", q_h4_block_3, strong_hemmnis, "Hypothese 4 – Top-5 als stark bewertete Hemmnisse (Block 3)."),
-    ]
-
-    for key, q_block, strong_set, cap in h4_blocks:
-        counts = helper._strong_counts(df_tidy, q_block, strong_set=strong_set)
-
-        fig = plot_radar_counts_topk(
-            counts,
-            title="",  # kein Titel, nur Abbildung als Caption
-            k=h4_topk,
-            wrap_width=20,
-            r_step=5,
-        )
-
-        p = out_dir / f"{key}_radar.png"
-
-        fig.savefig(p, dpi=300, bbox_inches="tight")
-        plt.close(fig)
-        saved.append(p)
-
-        captions.append(_next_caption(abb) if abb is None else f"Abbildung {abb}: {abb}")
-
-    return saved, captions

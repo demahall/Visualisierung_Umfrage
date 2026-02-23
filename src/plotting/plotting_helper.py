@@ -14,18 +14,19 @@ import textwrap
 
 
 import src.plotting.plotting_config as cfg
-import hypothesen_CONST as hyp_const
+import QUESTION_LIST as hyp_const
 
 
 # -----------------------------
 # Helpers
 # -----------------------------
-def make_filename_safe(text: str, max_len: int = 60) -> str:
+def _make_filename_safe(text: str, max_len: int = 60) -> str:
     safe = re.sub(r"[^\w\s\-]+", "_", text, flags=re.UNICODE).strip()
     safe = re.sub(r"\s+", " ", safe)
     safe = safe.replace(" ", "_")
     return safe[:max_len]
-def wrap_labels(labels, width=80, max_lines=5):
+
+def _wrap_labels(labels, width=50, max_lines=5):
     """
     Wrap long labels into multiple lines.
     width: max characters per line
@@ -50,7 +51,7 @@ def _add_legend_on_the_right_side(fig, categories, colors, x=0.90, y_top=0.88, l
         fig.text(x, y, "■", color=col, fontsize=fontsize+2, va="center", ha="left")
         fig.text(x + 0.02, y, str(cat), fontsize=fontsize, va="center", ha="left")
 
-def add_caption(fig: plt.Figure, caption: str) -> None:
+def _add_caption(fig: plt.Figure, caption: str) -> None:
     """
     Adds a centered bottom caption. Automatically wraps into multiple lines
     so the text never gets cut.
@@ -65,6 +66,7 @@ def add_caption(fig: plt.Figure, caption: str) -> None:
         fontsize=cfg.FONT_CAPTION,
         linespacing=cfg.CAPTION_LINE_SPACING,
     )
+
 def _left_margin_for_labels(labels: list[str], base: float = 0.18, per_char: float = 0.003, cap: float = 0.42) -> float:
     """
     Estimate needed left margin based on longest label length.
@@ -136,11 +138,6 @@ def _donut_one(ax, labels: List[str], pcts: np.ndarray) -> None:
 # -----------------------------
 # Helpers Hypotheses
 # -----------------------------
-def _require_cols(df: pd.DataFrame, cols: List[str], ctx: str) -> None:
-    missing = [c for c in cols if c not in df.columns]
-    if missing:
-        raise ValueError(f"[{ctx}] df_tidy missing columns: {missing}. Found: {df.columns.tolist()}")
-
 
 def _summarize_diverging(df_tidy: pd.DataFrame, q_group: str, q_ce: str) -> pd.DataFrame:
     """
