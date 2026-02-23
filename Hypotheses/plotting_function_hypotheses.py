@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import src.plotting.plotting_config as cfg
 import src.plotting.plotting_helper as helper
 from pathlib import Path
+from Hypotheses.preprocessing_hypotheses import summarize_diverging,summarize_diverging_multiselect,_strong_counts
 
 
 # ============================================================
@@ -196,8 +197,8 @@ def plot_hypotheses_and_save(
     df_tidy: pd.DataFrame,
     out_dir: Path,
     *,
-    q_ce: str,
-    q_h1_group: str,
+    q_ce:str,
+    q_h1_group:str,
     q_h2_industry: str,
     q_h3_group: str,
     q_h4_block_1: str,
@@ -228,7 +229,7 @@ def plot_hypotheses_and_save(
 
     # --- H1 ---
 
-    h1 = helper._summarize_diverging(df_tidy, q_h1_group, q_ce)
+    h1 = summarize_diverging(df_tidy,initial_question=q_h1_group,target_question=q_ce)
     fig = plot_diverging_yes_no(
         h1,
         title="H1: Unternehmensgröße vs. CE umgesetzt",
@@ -245,7 +246,7 @@ def plot_hypotheses_and_save(
     saved.append(p); captions.append(cap)
 
     # --- H2 ---
-    h2 = helper._summarize_diverging_multiselect(df_tidy, q_h2_industry, q_ce)
+    h2 = summarize_diverging_multiselect(df_tidy)
     fig = plot_diverging_yes_no_h2(
         h2,
         title="H2: Branche vs. CE umgesetzt (Mehrfachauswahl)",
@@ -259,7 +260,7 @@ def plot_hypotheses_and_save(
     saved.append(p); captions.append(cap)
 
     # --- H3 ---
-    h3 = helper._summarize_diverging(df_tidy, q_h3_group, q_ce)
+    h3 = summarize_diverging(df_tidy, q_h3_group, q_ce)
     fig = plot_diverging_yes_no(
         h3,
         title="H3: Seriengröße vs. CE umgesetzt",
@@ -283,7 +284,7 @@ def plot_hypotheses_and_save(
     ]
 
     for key, q_block, strong_set, cap in h4_blocks:
-        counts = helper._strong_counts(df_tidy, q_block, strong_set=strong_set)
+        counts = _strong_counts(df_tidy, q_block, strong_set=strong_set)
 
         fig = plot_radar_counts_topk(
             counts,
