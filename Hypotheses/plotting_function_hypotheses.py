@@ -7,18 +7,15 @@ import matplotlib.pyplot as plt
 import src.plotting.plotting_config as cfg
 import src.plotting.plotting_helper as helper
 from pathlib import Path
-from Hypotheses.preprocessing_hypotheses import summarize_diverging,summarize_diverging_multiselect,_strong_counts
+
 
 
 # ============================================================
 # Plot for H1,H3
 # ============================================================
-def plot_diverging_yes_no(
-    summary: pd.DataFrame,
-    *,
-    title: Optional[str] = None,
-    ylabel: Optional[str] = None,
-    wrap_width: int = 26,
+def plot_diverging(
+    df_hypotheses: pd.DataFrame,
+    ylabel: str,
     show_n_in_labels: bool = False,
 ) -> plt.Figure:
     """
@@ -30,28 +27,38 @@ def plot_diverging_yes_no(
     """
 
     #labels -> 10-49, 50-250,<10,<250
-    s = summary.copy()
-
+    df = df_hypotheses.copy()
     # rearrange index
 
+    order = ["< 10", "10 - 49", "50 - 250", "> 250"]
 
-    labels_raw = s["label"].astype(str).tolist()
-    labels = helper._wrap_labels(labels_raw, width=wrap_width, max_lines=4)
+    df["initial_question_label"] = pd.Categorical(
+        df["initial_question_label"],
+        categories=order,
+        ordered=True
+    )
+
+    df = df.sort_values("initial_question_label").reset_index(drop=True)
+
+    labels_raw = df["initial_question_label"].astype(str).tolist()
+    labels = helper._wrap_labels(labels_raw)
 
     if show_n_in_labels:
-        labels = [f"{lab} (n={n})" for lab, n in zip(labels, s["base_n"].tolist())]
+        labels = [f"{lab} (n={n})" for lab, n in zip(labels, df["base_n"].tolist())]
 
-    yes = s["yes_pct"].to_numpy(float)
-    no  = s["no_pct"].to_numpy(float)
+    yes = df["yes_pct"].to_numpy(float)
+    no  = df["no_pct"].to_numpy(float)
 
     y = np.arange(len(labels))
 
     fig = plt.figure(figsize=cfg.FIGSIZE)
     ax = fig.add_axes([cfg.AX_BOX_LEFT, cfg.AX_BOX_BOTTOM, cfg.AX_BOX_WIDTH, cfg.AX_BOX_HEIGHT])
 
+    h = cfg.HBAR_BAR_HEIGHT
     # bars
-    ax.barh(y, -no, color=cfg.PALETTE[2], label="noch nicht umgesetzt")
-    ax.barh(y,  yes, color=cfg.PALETTE[0], label="bereits umgesetzt")
+    ax.barh(y, -no,height=h, color=cfg.PALETTE[2], label="noch nicht umgesetzt")
+    ax.barh(y,  yes,height=h, color=cfg.PALETTE[0], label="bereits umgesetzt")
+
 
     # middle line
     ax.axvline(0, color=cfg.PALETTE[0], lw=1.2, alpha=0.8)
@@ -65,16 +72,16 @@ def plot_diverging_yes_no(
     if ylabel:
         ax.set_ylabel(ylabel)
 
+
+
     ax.set_xlim(-100, 100)
     ax.set_xticks(np.arange(-100, 101, 25))
     ax.xaxis.set_major_formatter(mtick.FuncFormatter(lambda v, _: f"{abs(int(v))}%"))
 
-    # fonts (closer to your other plotting_function_jg_analyse)
-    ax.tick_params(axis="x", labelsize=cfg.FONT_TICK)
-    ax.tick_params(axis="y", labelsize=cfg.FONT_TICK)
+    ax.tick_params(labelsize=cfg.FONT_TICK)
 
     # text on bars (pct + (n))
-    for i, (yp, npct, yn, nn) in enumerate(zip(yes, no, s["yes_n"], s["no_n"])):
+    for i, (yp, npct, yn, nn) in enumerate(zip(yes, no, df["yes_n"], df["no_n"])):
         if npct > 0:
             ax.text(-npct/2, i, f"{npct:.0f}%\n({int(nn)})", va="center", ha="center", fontsize=cfg.FONT_TICK)
         if yp > 0:
@@ -84,78 +91,61 @@ def plot_diverging_yes_no(
     ax.grid(axis="x", alpha=0.18)
     ax.set_axisbelow(True)
 
-    # title (optional)
-    if title:
-        ax.set_title(title, fontsize=cfg.FONT_TITLE)
-
     # legend outside (top-right) like your stacked bar example
     ax.legend(
         loc="upper left",
         bbox_to_anchor=(1.02, 1.0),
         frameon=False,
-        fontsize=cfg.FONT_TICK,
+        fontsize=cfg.FONT_LEGEND_SIZE,
     )
-
-    # give room for legend and wrapped ylabels
-    fig.subplots_adjust(left=0.25, right=0.80, top=0.92, bottom=0.18)
 
     return fig
 
 # ============================================================
 # Plot for H2
 # ============================================================
-def plot_diverging_yes_no_h2(
-    summary: pd.DataFrame,
-    *,
-    title: Optional[str] = None,
-    wrap_width: int = 24,
-) -> plt.Figure:
+def plot_diverging_h2(df_hypotheses: pd.DataFrame) -> plt.Figure:
 
-    s = helper._add_material_cost_group(summary)
+    df = df_hypotheses.copy()
 
     # sort: high first, then low, then other; inside group by yes_pct desc
     order_map = {"Hohe Materialkosten": 0, "Geringe Materialkosten": 1, "Sonstige/unklar": 2}
-    s["_grp"] = s["cost_group"].map(order_map).fillna(9)
-    s = s.sort_values(["_grp", "yes_pct"], ascending=[True, False]).drop(columns=["_grp"])
+
+    df["_grp"] = df["cost_group"].map(order_map).fillna(9)
+    df = df.sort_values(["_grp", "yes_pct"], ascending=[True, False]).drop(columns=["_grp"])
 
     # feed into base plotter by renaming label
-    s2 = s.rename(columns={"label": "label_orig"})
+    s2 = df.rename(columns={"label": "label_orig"})
     s2["label"] = s2["label_marked"]
 
-    fig = plot_diverging_yes_no(
-        s2,
-        title=title,
+    fig = plot_diverging(
+        df_hypotheses=s2,
         ylabel="Branche (▲ hoch / ▼ niedrig / • unklar)",
-        sort_by_yes=False,
-        wrap_width=wrap_width,
-        show_n_in_labels=False,
     )
+
     return fig
 
 # ============================================================
 # Plot H4
 # ============================================================
-def plot_radar_counts_topk(
-    counts: "pd.Series",
-    title: str = "",
-    k: int = 5,
-    wrap_width: int = 26,
-    r_step: int = 5,
+def plot_netzdiagramm(
+    df_hypotheses: "pd.Series",
 ):
     # --- 1) Top-k auswählen (und NaNs absichern) ---
-    s = counts.dropna().sort_values(ascending=False)
-    if k is not None:
-        s = s.head(k)
+    s = df_hypotheses.dropna().sort_values(ascending=False)
+
+    k = 5 # nur 5 am meisten ausgewählte options
+    r_step = 5
+
+    s = s.head(k)
 
     labels = s.index.astype(str).tolist()
     values = s.values.astype(float).tolist()
 
     # OPTIONAL: _wrap_labels aus deinem plotting_function.py nutzen
-    labels_wrapped = helper._wrap_labels(labels, width=wrap_width, max_lines=4)
+    labels_wrapped = helper._wrap_labels(labels)
 
     n = len(labels_wrapped)
-    if n == 0:
-        raise ValueError("Radar: keine Daten (n=0). Prüfe strong_set / question_text.")
 
     # --- 2) Angles passend zu Top-k bauen ---
     angles = np.linspace(0, 2 * np.pi, n, endpoint=False).tolist()
@@ -165,7 +155,7 @@ def plot_radar_counts_topk(
     values_closed = values + values[:1]
 
     # --- 3) Plot ---
-    fig = plt.figure(figsize=cfg.FIGSIZE)  # gleiche FIGSIZE wie deine anderen Plots
+    fig = plt.figure(figsize=cfg.FIGSIZE_NETZDIAGRAMM)
     ax = fig.add_subplot(111, polar=True)
 
     ax.plot(angles_closed, values_closed, linewidth=2)
@@ -182,33 +172,17 @@ def plot_radar_counts_topk(
     ax.set_yticks(list(range(0, rmax + 1, r_step)))
     ax.set_yticklabels([str(v) for v in range(0, rmax + 1, r_step)])
 
-    # --- 6) Values an jede Achse schreiben (Betreuer will Counts!) ---
+    ax.tick_params(labelsize=cfg.FONT_TICK)
+    ax.legend(fontsize=cfg.FONT_LEGEND_SIZE)
+
     for a, v in zip(angles, values):
         ax.text(a, v + 0.6, f"{int(v)}", ha="center", va="center", fontsize=cfg.FONT_TICK)
-
-    # Title optional (du wolltest bei H4: kein Titel, nur Caption unten)
-    if title:
-        ax.set_title(title, fontsize=cfg.FONT_TITLE, pad=12)
-
-    # Kreis kleiner wirken lassen (mehr Weißraum)
-    fig.subplots_adjust(left=0.16, right=0.84, top=0.88, bottom=0.20)
 
     return fig
 
 def plot_hypotheses_and_save(
-    df_tidy: pd.DataFrame,
+    df_hypotheses: dict,
     out_dir: Path,
-    *,
-    q_ce:str,
-    q_h1_group:str,
-    q_h2_industry: str,
-    q_h3_group: str,
-    q_h4_block_1: str,
-    q_h4_block_2: str,
-    q_h4_block_3: str,
-    h4_topk: int = 5,
-    strong_hemmnis: set[str] | None = None,
-    strong_zustimmung: set[str] | None = None,
     start_abbildung_index: int | None = None,
 ) -> Tuple[List[Path], List[str]]:
 
@@ -216,93 +190,82 @@ def plot_hypotheses_and_save(
     out_dir = Path(out_dir) / "hypotheses"
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    saved: List[Path] = []
+    out_paths: List[Path] = []
     captions: List[str] = []
+    prefix_index = 1
 
-    abb = start_abbildung_index
+    def save(fig, caption_text: str, safe_name: str):
+        nonlocal prefix_index
 
-    def _next_caption(text: str) -> str:
-        nonlocal abb
-        if abb is None:
-            return f"Abbildung: {text}"
-        abb += 1
-        return f"Abbildung {abb}: {text}"
+        cap = f"Abbildung {prefix_index}: {caption_text}"
+        helper._add_caption(fig, cap)
+
+        filename = f"{prefix_index:02d}_{safe_name}.{cfg.SAVE_FORMAT}"
+        out_path = out_dir / filename
+        helper._save_fig(fig, out_path)
+
+        out_paths.append(out_path)
+        captions.append(cap)
+        prefix_index += 1
 
 
-    # --- H1 ---
 
-    h1 = summarize_diverging(df_tidy,initial_question=q_h1_group,target_question=q_ce)
-    fig = plot_diverging_yes_no(
-        h1,
-        title="H1: Unternehmensgröße vs. CE umgesetzt",
+    # --- plotting_function_hypotheses ---
+
+    # ------H1--------
+    fig = plot_diverging(
+        df_hypotheses=df_hypotheses["H1"],
         ylabel="Anzahl der Beschäftigten",
-        sort_by_yes=False,
-        wrap_width=22,
         show_n_in_labels=False,
     )
-    cap = _next_caption("Hypothese 1 – Größere Unternehmen setzen häufiger bereits Kreislaufwirtschaft um als kleine Unternehmen.")
-    helper._add_caption(fig, cap)
-    p = out_dir / "H1_diverging.png"
-    fig.savefig(p, dpi=300)
-    plt.close(fig)
-    saved.append(p); captions.append(cap)
+
+    save(fig, caption_text="Hypothese 1 – Größere Unternehmen setzen häufiger bereits Kreislaufwirtschaft um als kleine Unternehmen.",
+         safe_name="Hypothese 1 – Größere Unternehmen setzen häufiger bereits Kreislaufwirtschaft um als kleine Unternehmen.")
+
 
     # --- H2 ---
-    h2 = summarize_diverging_multiselect(df_tidy)
-    fig = plot_diverging_yes_no_h2(
-        h2,
-        title="H2: Branche vs. CE umgesetzt (Mehrfachauswahl)",
-        wrap_width=22,
-    )
-    cap = _next_caption("Hypothese 2 – Branchen mit hohen Materialkosten sind eher bereit, Kreislaufwirtschaft umzusetzen als Branchen mit geringeren Materialkosten.")
-    helper._add_caption(fig, cap)
-    p = out_dir / "H2_diverging.png"
-    fig.savefig(p, dpi=300)
-    plt.close(fig)
-    saved.append(p); captions.append(cap)
+    fig = plot_diverging_h2(
+        df_hypotheses=df_hypotheses["H2"])
+
+    save(fig, caption_text="Hypothese 2 – Branchen mit hohen Materialkosten sind eher bereit, Kreislaufwirtschaft umzusetzen als Branchen mit geringeren Materialkosten.",
+         safe_name="Hypothese 2 – Branchen mit hohen Materialkosten sind eher bereit, Kreislaufwirtschaft umzusetzen als Branchen mit geringeren Materialkosten.")
 
     # --- H3 ---
-    h3 = summarize_diverging(df_tidy, q_h3_group, q_ce)
-    fig = plot_diverging_yes_no(
-        h3,
-        title="H3: Seriengröße vs. CE umgesetzt",
+
+    fig = plot_diverging(
+        df_hypotheses=df_hypotheses["H3"],
         ylabel="Monatliche Stückzahl",
-        sort_by_yes=False,
-        wrap_width=24,
         show_n_in_labels=False,
     )
-    cap = _next_caption("Hypothese 3 – Kleinserien oder Einzelanfertigungen eignen sich für die Wiederaufbereitung eher als Großserienprodukte.")
-    helper._add_caption(fig, cap)
-    p = out_dir / "H3_diverging.png"
-    fig.savefig(p, dpi=300)
-    plt.close(fig)
-    saved.append(p); captions.append(cap)
 
-    # --- H4  ---
-    h4_blocks = [
-        ("H4_1", q_h4_block_1, strong_hemmnis, "Hypothese 4 – Top-5 als stark bewertete Hemmnisse."),
-        ("H4_2", q_h4_block_2, strong_zustimmung, "Hypothese 4 – Top-5 als stark bewertete Zustimmung."),
-        ("H4_3", q_h4_block_3, strong_hemmnis, "Hypothese 4 – Top-5 als stark bewertete Hemmnisse."),
-    ]
+    save(fig,caption_text="Hypothese 3 – Kleinserien oder Einzelanfertigungen eignen sich für die Wiederaufbereitung eher als Großserienprodukte.",
+        safe_name="Hypothese 3 – Kleinserien oder Einzelanfertigungen eignen sich für die Wiederaufbereitung eher als Großserienprodukte.")
 
-    for key, q_block, strong_set, cap in h4_blocks:
-        counts = _strong_counts(df_tidy, q_block, strong_set=strong_set)
 
-        fig = plot_radar_counts_topk(
-            counts,
-            title="",  # kein Titel, nur Abbildung als Caption
-            k=h4_topk,
-            wrap_width=20,
-            r_step=5,
-        )
+    # --- H4.1  ---
 
-        p = out_dir / f"{key}_radar.png"
+    fig = plot_netzdiagramm(
+        df_hypotheses=df_hypotheses["H4.1"],
+    )
 
-        fig.savefig(p, dpi=300, bbox_inches="tight")
-        plt.close(fig)
-        saved.append(p)
+    save(fig,caption_text="Hypothese 4 – Top-5 als stark bewertete Hemmnisse.(Q31)",
+         safe_name="Hypothese 4 – Top-5 als stark bewertete Hemmnisse.(Q31)")
 
-        captions.append(_next_caption(abb) if abb is None else f"Abbildung {abb}: {abb}")
 
-    return saved, captions
+    # ------H4.2 ----------
+    fig = plot_netzdiagramm(
+        df_hypotheses=df_hypotheses["H4.2"] )
+
+    save(fig,caption_text="Hypothese 4 – Top-5 als stark bewertete Zustimmung.(Q32)",
+         safe_name="Hypothese 4 – Top-5 als stark bewertete Zustimmung.(Q32)")
+
+    #------H4.3 ----------
+    fig = plot_netzdiagramm(
+        df_hypotheses=df_hypotheses["H4.3"],
+    )
+
+    save(fig,caption_text="Hypothese 4 – Top-5 als stark bewertete Hemmnisse.(Q33)",
+         safe_name="Hypothese 4 – Top-5 als stark bewertete Hemmnisse.(Q33)")
+
+    return out_paths, captions
 

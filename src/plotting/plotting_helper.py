@@ -8,13 +8,11 @@ from matplotlib.colors import to_rgba
 import re
 
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
 import textwrap
 
 
 import src.plotting.plotting_config as cfg
-import QUESTION_LIST as hyp_const
 
 
 # -----------------------------
@@ -26,7 +24,7 @@ def _make_filename_safe(text: str, max_len: int = 60) -> str:
     safe = safe.replace(" ", "_")
     return safe[:max_len]
 
-def _wrap_labels(labels, width=50, max_lines=5):
+def _wrap_labels(labels, width=cfg.TICKS_WRAP_WIDTH, max_lines=cfg.MAX_LINE_WRAP):
     """
     Wrap long labels into multiple lines.
     width: max characters per line

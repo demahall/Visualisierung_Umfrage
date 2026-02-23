@@ -12,6 +12,7 @@ import src.plotting.plotting_config as cfg
 
 
 def plot_jg_and_save(results: dict, out_dir: Path) -> Tuple[List[Path], List[str]]:
+
     out_dir.mkdir(parents=True, exist_ok=True)
 
     out_paths: List[Path] = []

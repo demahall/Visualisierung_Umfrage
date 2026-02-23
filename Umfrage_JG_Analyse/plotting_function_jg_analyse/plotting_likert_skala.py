@@ -56,7 +56,7 @@ def plot_grouped_likert_means(
     v1 = piv[group_order[1]].values
     v2 = piv[group_order[0]].values
 
-    wrapped = helper._wrap_labels(labels, width=40, max_lines=3)
+    wrapped = helper._wrap_labels(labels)
 
     fig = plt.figure(figsize=cfg.FIGSIZE)
     ax = fig.add_axes([cfg.AX_BOX_LEFT, cfg.AX_BOX_BOTTOM, cfg.AX_BOX_WIDTH, cfg.AX_BOX_HEIGHT])

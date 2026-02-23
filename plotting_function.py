@@ -45,25 +45,23 @@ def plot_single_percent_bar(
     fig = plt.figure(figsize=cfg.FIGSIZE)
     ax = fig.add_axes([cfg.AX_BOX_LEFT, cfg.AX_BOX_BOTTOM, cfg.AX_BOX_WIDTH, cfg.AX_BOX_HEIGHT])
 
-    if use_horizontal:
+    # wrap FIRST, then compute margin so labels never get cut
+    wrapped = helper._wrap_labels(labels)
 
-        # wrap FIRST, then compute margin so labels never get cut
-        wrapped = helper._wrap_labels(labels)
-        left = helper._left_margin_for_labels(wrapped, base=0.22, per_char=0.0040, cap=0.48)
+    if use_horizontal:
 
         y = np.arange(len(labels))
         ax.barh(y, pcts, color=cfg.PALETTE[0])
         ax.set_yticks(y)
-        ax.set_yticklabels(helper._wrap_labels(labels, width=18))
+        ax.set_yticklabels(wrapped)
+        ax.tick_params(labelsize=cfg.FONT_TICK)
+
         ax.set_xlabel("Anteil der Teilnehmer in %")
 
         xmax = max(5, float(np.nanmax(pcts)) * 1.15)
         ax.set_xlim(0, xmax)
         ax.xaxis.set_major_formatter(mtick.PercentFormatter(xmax=100, decimals=0))
 
-        # smaller fonts for many-category plotting_function_jg_analyse
-        ax.tick_params(axis="y", labelsize=cfg.FONT_TICK)
-        ax.tick_params(axis="x", labelsize=cfg.FONT_TICK)
 
         for i, v in enumerate(pcts):
             ax.text(min(v + 1.0, xmax), i, f"{v:.0f}%", va="center", fontsize=9)
@@ -71,22 +69,21 @@ def plot_single_percent_bar(
         ax.grid(axis="x", alpha=0.25)
         ax.set_axisbelow(True)
 
-        fig.subplots_adjust(left=left, right=0.98, top=0.95, bottom=0.26)
         return fig
 
 
     x = np.arange(len(labels))
     ax.bar(x, pcts, color=cfg.PALETTE[0])
     ax.set_xticks(x)
-    ax.set_xticklabels(helper._wrap_labels(labels, width=14), rotation=0, ha="center")
+    ax.set_xticklabels(wrapped)
     ax.set_ylabel("Anteil der Teilnehmer in %")
+
 
     ymax = max(5, float(np.nanmax(pcts)) * 1.20)
     ax.set_ylim(0, ymax)
     ax.yaxis.set_major_formatter(mtick.PercentFormatter(xmax=100, decimals=0))
 
-    ax.tick_params(axis="x", labelsize=cfg.FONT_TICK)
-    ax.tick_params(axis="y", labelsize=cfg.FONT_TICK)
+    ax.tick_params(labelsize=cfg.FONT_TICK)
 
     for i, v in enumerate(pcts):
         ax.text(i, min(v + 1.0, ymax), f"{v:.0f}%", ha="center", va="bottom", fontsize=9)
@@ -133,21 +130,21 @@ def plot_checkbox_percent_bar(
     fig = plt.figure(figsize=cfg.FIGSIZE)
     ax = fig.add_axes([cfg.AX_BOX_LEFT, cfg.AX_BOX_BOTTOM, cfg.AX_BOX_WIDTH, cfg.AX_BOX_HEIGHT])
 
+    wrapped = helper._wrap_labels(labels)
+
     if use_horizontal:
 
         y = np.arange(len(labels))
         ax.barh(y, pcts, color=cfg.PALETTE[0])
         ax.set_yticks(y)
-        ax.set_yticklabels(helper._wrap_labels(labels, width=18))
+        ax.set_yticklabels(wrapped)
         ax.set_xlabel("Anteil der Nennungen (%)")
 
         xmax = max(5, float(np.nanmax(pcts)) * 1.15)
         ax.set_xlim(0, xmax)
         ax.xaxis.set_major_formatter(mtick.PercentFormatter(xmax=100, decimals=0))
 
-        # smaller fonts for many-category plotting_function_jg_analyse
-        ax.tick_params(axis="y", labelsize=cfg.FONT_TICK)
-        ax.tick_params(axis="x", labelsize=cfg.FONT_TICK)
+        ax.tick_params(labelsize=cfg.FONT_TICK)
 
         for i, v in enumerate(pcts):
             ax.text(min(v + 1.0, xmax), i, f"{v:.0f}%", va="center", fontsize=9)
@@ -160,15 +157,15 @@ def plot_checkbox_percent_bar(
         x = np.arange(len(labels))
         ax.bar(x, pcts, color=cfg.PALETTE[0])
         ax.set_xticks(x)
-        ax.set_xticklabels(helper._wrap_labels(labels, width=18), rotation=0, ha="center")
-        ax.set_ylabel("Anteil der Nennungen (%)")
+        ax.set_xticklabels(wrapped)
+        ax.set_ylabel("Anteil der Nennungen in %")
 
         ymax = max(5, float(np.nanmax(pcts)) * 1.20)
         ax.set_ylim(0, ymax)
         ax.yaxis.set_major_formatter(mtick.PercentFormatter(xmax=100, decimals=0))
 
-        ax.tick_params(axis="x", labelsize=cfg.FONT_TICK)
-        ax.tick_params(axis="y", labelsize=cfg.FONT_TICK)
+        ax.tick_params(labelsize=cfg.FONT_TICK)
+        ax.legend(fontsize=cfg.FONT_LEGEND_SIZE)
 
         for i, v in enumerate(pcts):
             ax.text(i, min(v + 1.0, ymax), f"{v:.0f}%", ha="center", va="bottom", fontsize=9)
@@ -181,7 +178,6 @@ def plot_checkbox_percent_bar(
 def plot_matrix_stacked_percent(
     df_tidy: pd.DataFrame,
     question_text: str,
-    figsize=None,
     items_order=None,
     answer_order=None,
     label_min_pct: float = 6.0,   # omit inside-label if segment < this
@@ -243,15 +239,18 @@ def plot_matrix_stacked_percent(
     y = np.arange(len(pivot_pct.index))
     left = np.zeros(len(pivot_pct.index))
 
+    legend_farbe = [cfg.PALETTE[1],cfg.PALETTE[2],cfg.PALETTE[3]] #green for ja, orange for no, light blue for no answer
+
     for i, ans in enumerate(pivot_pct.columns):
         vals = pivot_pct[ans].values
         ax.barh(
             y,
             vals,
             left=left,
-            color=cfg.PALETTE[i % len(cfg.PALETTE)],
+            color=legend_farbe[i],
             label=str(ans),
         )
+        ax.legend(loc = "upper right", bbox_to_anchor=(1.1, 0.9))
 
         # add inside labels when big enough
         for j, v in enumerate(vals):
@@ -262,34 +261,31 @@ def plot_matrix_stacked_percent(
                     f"{v:.0f}%",
                     ha="center",
                     va="center",
-                    fontsize=cfg.FONT_BAR_LABEL,   # keep uniform
+                    fontsize=cfg.FONT_LEGEND_SIZE,   # keep uniform
                     color="white"
                 )
 
         left += vals
 
-    ax.tick_params(axis="x", labelsize=cfg.FONT_TICK)
-    ax.tick_params(axis="y", labelsize=cfg.FONT_TICK)
 
     # y labels (wrapped)
     labels = pivot_pct.index.astype(str).tolist()
+    wrapped = helper._wrap_labels(labels)
+
     ax.set_yticks(y)
-    ax.set_yticklabels(helper._wrap_labels(labels, width=18))
+    ax.set_yticklabels(wrapped)
 
     # x axis percent
     ax.set_xlim(0, 100)
     ax.xaxis.set_major_formatter(mtick.PercentFormatter(xmax=100, decimals=0))
     ax.set_xlabel("Anteil der Teilnehmer in %")
 
+    ax.tick_params(labelsize=cfg.FONT_TICK)
+    ax.legend(fontsize=cfg.FONT_LEGEND_SIZE)
+
     # grid + style
     ax.grid(axis="x", alpha=0.25)
     ax.set_axisbelow(True)
-
-
-    # legend on the right
-    categories = list(pivot_n.columns)
-    colors = [cfg.PALETTE[i % len(cfg.PALETTE)] for i in range(len(categories))]
-    helper._add_legend_on_the_right_side(fig, categories, colors, x=0.83, y_top=0.88, line_h=0.04, fontsize=10)
 
     return fig
 
@@ -317,8 +313,8 @@ def plot_donut_single(
     fig = plt.figure(figsize=figsize)
 
     # ✅ add_axes controls layout; subplots_adjust is not needed
-    ax = fig.add_axes([cfg.AX_BOX_LEFT, cfg.AX_BOX_BOTTOM, cfg.AX_BOX_WIDTH, cfg.AX_BOX_HEIGHT])
-    helper._donut_one(ax, labels=helper._wrap_labels(labels, width=28), pcts=pcts)
+    ax = fig.add_axes([cfg.AX_BOX_LEFT_DONUT, cfg.AX_BOX_BOTTOM, cfg.AX_BOX_WIDTH, cfg.AX_BOX_HEIGHT])
+    helper._donut_one(ax, labels=helper._wrap_labels(labels), pcts=pcts)
 
     return fig
 

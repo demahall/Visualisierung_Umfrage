@@ -47,19 +47,22 @@ SAVE_PAD_INCHES = 0.0
 
 FIGSIZE = (13.0, 9.0)
 
-# For donut plot
-FIGSIZE_DONUT = FIGSIZE
-FONT_TITLE = 11
-
 # fixed axes box (relative to figure)
 AX_BOX_WIDTH = 0.50
-AX_BOX_LEFT  = 0.30 # to keep long y index
+AX_BOX_LEFT  = 0.35 # to keep long y index
 AX_BOX_RIGHT = AX_BOX_LEFT + AX_BOX_WIDTH
 
 AX_BOX_BOTTOM = 0.26   # room for caption
 AX_BOX_TOP = 0.92
 AX_BOX_HEIGHT = AX_BOX_TOP - AX_BOX_BOTTOM
 
+# For donut plot
+FIGSIZE_DONUT = FIGSIZE
+FONT_TITLE = 11
+AX_BOX_LEFT_DONUT =  (1- AX_BOX_WIDTH) /2
+
+# For network diagmram
+FIGSIZE_NETZDIAGRAMM = (8,8)
 
 # -----------------------------
 # Brand colors (from your slide)
@@ -106,6 +109,11 @@ FONT_AXIS_LABEL = 12
 FONT_TICK = 12
 FONT_BAR_LABEL = 12
 FONT_CAPTION = 12
+
+
+#---y index wrap width
+TICKS_WRAP_WIDTH = 50
+MAX_LINE_WRAP = 3
 
 # caption wrapping
 

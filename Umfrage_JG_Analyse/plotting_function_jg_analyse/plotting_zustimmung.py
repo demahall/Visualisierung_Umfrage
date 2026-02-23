@@ -72,7 +72,7 @@ def plot_zustimmung_yesno_stacked_by_group(
         y_labels.append(it)      # first row (GU)
         y_labels.append("")      # second row (KMU)
 
-    wrapped = helper._wrap_labels(y_labels,width=40, max_lines=3)
+    wrapped = helper._wrap_labels(y_labels)
 
     # values in plotting order
     yes = piv[answer_order[0]].values
@@ -109,6 +109,8 @@ def plot_zustimmung_yesno_stacked_by_group(
     ax.set_yticks(y)
     ax.set_yticklabels(wrapped)
     ax.tick_params(labelsize=cfg.FONT_TICK)
+    ax.legend(fontsize=cfg.FONT_LEGEND_SIZE)
+
     ax.set_xlim(0, 100)
     ax.set_xticks([0, 25, 50,75, 100])
     ax.xaxis.set_major_formatter(mtick.PercentFormatter(xmax=100, decimals=cfg.AXIS_PCT_DECIMALS))

@@ -35,7 +35,7 @@ df_hypotheses_dict = [
         "func": compute_strong_counts_hypotheses,
         "params": {
             "target_question": hyp_const.Q31,
-            "strong_set": hyp_const.LIKERT_HEMMNIS_MAPPING
+            "strong_set": hyp_const.STRONG_CATEGORY_HEMMNIS
         },
 
     },
@@ -44,7 +44,7 @@ df_hypotheses_dict = [
         "func": compute_strong_counts_hypotheses,
         "params": {
             "target_question": hyp_const.Q32,
-            "strong_set": hyp_const.LIKERT_ZUSTIMMUNG_MAPPING
+            "strong_set": hyp_const.STRONG_CATEGORY_ZUSTIMMUNG
         },
     },
     {
@@ -52,7 +52,7 @@ df_hypotheses_dict = [
         "func": compute_strong_counts_hypotheses,
         "params": {
             "target_question": hyp_const.Q33,
-            "strong_set": hyp_const.LIKERT_HEMMNIS_MAPPING
+            "strong_set": hyp_const.STRONG_CATEGORY_HEMMNIS
         },
     }
 

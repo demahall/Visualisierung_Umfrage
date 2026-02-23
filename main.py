@@ -30,6 +30,7 @@ from plotting_function import plot_question_and_save
 
 from Hypotheses.preprocessing_hypotheses import get_df_hypotheses
 from Hypotheses import df_hypotheses_dict
+from Hypotheses.plotting_function_hypotheses import plot_hypotheses_and_save
 
 from Umfrage_JG_Analyse.preprocessing_jg_analyse.gu_kmu_classification import gu_kmu_classification
 from Umfrage_JG_Analyse.preprocessing_jg_analyse.finalize_output import get_df_jg
@@ -181,38 +182,13 @@ def main() -> None:
 
 
     df_hypotheses = get_df_hypotheses(df_tidy,df_hypotheses_dict)
-    print(df_hypotheses)
 
-    try:
-        hyp_paths, hyp_caps = plot_hypotheses_and_save(
-            df_tidy=df_tidy,
-            out_dir=cfg.PLOTS_H_DIR,
-            q_ce=hyp_const.Q11,
-            q_h1_group=hyp_const.Q2,
-            q_h2_industry=hyp_const.Q4,
-            q_h3_group=hyp_const.Q10,
-            q_h4_block_1=hyp_const.Q31,
-            q_h4_block_2=hyp_const.Q32,
-            q_h4_block_3=hyp_const.Q33,
-            h4_topk=5,
-            strong_hemmnis=hyp_const.STRONG_CATEGORY_HEMMNIS,
-            strong_zustimmung=hyp_const.STRONG_CATEGORY_ZUSTIMMUNG,
-            start_abbildung_index=(plot_i if PREFIX_WITH_INDEX else None),
-        )
+    out_paths, captions = plot_hypotheses_and_save(df_hypotheses,out_dir=cfg.PLOTS_JG_DIR)
 
-        saved.extend(hyp_paths)
-        list_of_figures.extend(hyp_caps)
+    print("Saved figures:")
+    for p in out_paths:
+        print("-", p)
 
-        # keep numbering consistent
-        if PREFIX_WITH_INDEX:
-            plot_i += len(hyp_paths)
-
-        logger.write(f"[OK] Hypotheses plotting_function_jg_analyse saved={len(hyp_paths)}")
-
-    except Exception as e:
-        logger.write(f"[FAIL] Hypotheses | error={repr(e)}")
-        logger.write("traceback:")
-        logger.write_traceback()
 
     # -------------------------
     # 5) JG ANALYSE (GU/KMU PLOTS)

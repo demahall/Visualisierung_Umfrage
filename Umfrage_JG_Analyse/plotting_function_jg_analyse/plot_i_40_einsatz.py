@@ -56,9 +56,7 @@ def plot_grouped_pct_prepared(
     v2 = piv[group_order[0]].values
 
     # 5) Wrap labels + compute margin to avoid cutting
-    wrapped = helper._wrap_labels(labels, width=40, max_lines=3)
-    left = helper._left_margin_for_labels(wrapped, base=0.22, per_char=0.0040, cap=0.48)
-
+    wrapped = helper._wrap_labels(labels)
     # 6) Figure + axes
     fig = plt.figure(figsize=cfg.FIGSIZE)
     ax = fig.add_axes([cfg.AX_BOX_LEFT, cfg.AX_BOX_BOTTOM, cfg.AX_BOX_WIDTH, cfg.AX_BOX_HEIGHT])

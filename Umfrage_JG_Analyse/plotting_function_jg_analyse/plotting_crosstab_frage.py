@@ -56,7 +56,7 @@ def plot_crosstab_frage(
     nein = piv["Nein"].values
 
     # wrap
-    wrapped = helper._wrap_labels(y_labels, width=42, max_lines=2)
+    wrapped = helper._wrap_labels(y_labels)
 
     # 5) figure / axes
     fig = plt.figure(figsize=cfg.FIGSIZE)

@@ -1,4 +1,4 @@
-Run started: 2026-02-23 19:12:06
+Run started: 2026-02-23 21:34:28
 Log file: /Users/buayaguruun21/PycharmProjects/Visualisierung_Umfrage/plotting_output/plotting_output/run_log.txt
 ------------------------------------------------------------------------------------------
 Excel: /Users/buayaguruun21/PycharmProjects/Visualisierung_Umfrage/new_survey_result.xlsx
@@ -52,10 +52,13 @@ Catalog entries: 43
 [OK]          | Abbildung 43 | type=single | plot= | saved=1 | 43_Geben_Sie_bitte_Ihre_E_-_Mail_-_Adresse_an__damit_wir_Sie_er.png
 
 === PLOTTING HYPOTHESES ===
-[FAIL] Hypotheses | error=NameError("name 'plot_hypotheses_and_save' is not defined")
-traceback:
-Traceback (most recent call last):
-  File "/Users/buayaguruun21/PycharmProjects/Visualisierung_Umfrage/main.py", line 187, in main
-    hyp_paths, hyp_caps = plot_hypotheses_and_save(
-NameError: name 'plot_hypotheses_and_save' is not defined
+[OK] Wrote list_of_figures.txt (43 lines)
 
+=== SUMMARY ===
+Questions OK:      39
+Questions skipped: 4
+Questions failed:  0
+Saved plot files:  117
+Output folder:     /Users/buayaguruun21/PycharmProjects/Visualisierung_Umfrage/plotting_output/plotting_output
+------------------------------------------------------------------------------------------
+Run finished: 2026-02-23 21:35:39
