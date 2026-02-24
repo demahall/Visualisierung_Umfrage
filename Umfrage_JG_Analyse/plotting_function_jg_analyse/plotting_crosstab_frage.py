@@ -28,16 +28,9 @@ def plot_crosstab_frage(
       horizontal stacked bar chart (Ja + Nein = 100%) for each segment.
     """
 
-    required = {"segment", "target_question", "target_item", "answer", "pct"}
-    missing = required - set(df_plot.columns)
-    if missing:
-        raise ValueError(f"df_plot missing columns: {missing}")
 
     # 1) filter question
     d = df_plot[df_plot["target_item"] == target_item].copy()
-    if d.empty:
-        raise ValueError(f"No rows found for target_question == {target_item!r}")
-
 
     segments = d["segment"].astype(str).unique().tolist()
 
@@ -54,6 +47,10 @@ def plot_crosstab_frage(
     y_labels = piv.index.tolist()
     ja = piv["Ja"].values
     nein = piv["Nein"].values
+
+    # get the number of respondent for each group class for labelling later
+    n1 = d[d['answer'] == 'Ja']['n'].tolist()
+    n2 = d[d['answer'] == 'Nein']['n'].tolist()
 
     # wrap
     wrapped = helper._wrap_labels(y_labels)
@@ -83,7 +80,7 @@ def plot_crosstab_frage(
     ax.set_yticklabels(y_ticks)
     ax.tick_params(labelsize=cfg.FONT_TICK)
     ax.set_xlim(0, 100)
-    ax.set_xticks([0, 50, 100])
+    ax.set_xticks([0,25, 50,75, 100])
     ax.xaxis.set_major_formatter(mtick.PercentFormatter(xmax=100, decimals=cfg.AXIS_PCT_DECIMALS))
     ax.set_xlabel("Anteil der Teilnehmer in %")
     ax.set_ylabel(y_label)
@@ -96,8 +93,11 @@ def plot_crosstab_frage(
         if np.isnan(v):
             continue
         if v >= inside_threshold:
-            ax.text(v * 0.5, y[i] - off, f"{v:.0f}%", ha="center", va="center",
-                    fontsize=cfg.FONT_BAR_LABEL, color="white")
+            ax.text(min(v + 1, 100), y[i] - off, f"{v:.0f}%", ha="left", va="center",
+                    fontsize=cfg.FONT_BAR_LABEL)
+
+            ax.text(1, y[i] - off, f"n={n1[i]}", va="center", ha="left",
+                    fontsize=cfg.FONT_BAR_LABEL,color="white")
         else:
             ax.text(min(v + 1.0, 100), y[i] - off, f"{v:.0f}%", va="center",
                     fontsize=cfg.FONT_BAR_LABEL)
@@ -106,8 +106,12 @@ def plot_crosstab_frage(
         if np.isnan(v):
             continue
         if v >= inside_threshold:
-            ax.text(v * 0.5, y[i] + off, f"{v:.0f}%", ha="center", va="center",
-                    fontsize=cfg.FONT_BAR_LABEL, color="white")
+            ax.text(min(v + 1, 100), y[i] + off, f"{v:.0f}%", ha="left", va="center",
+                    fontsize=cfg.FONT_BAR_LABEL)
+
+            ax.text(1, y[i] + off, f"n={n2[i]}", va="center", ha="left",
+                    fontsize=cfg.FONT_BAR_LABEL,color="white")
+
         else:
             ax.text(min(v + 1.0, 100), y[i] + off, f"{v:.0f}%", va="center",
                     fontsize=cfg.FONT_BAR_LABEL)

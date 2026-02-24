@@ -27,6 +27,10 @@ def plot_grouped_pct_prepared(
     # 1) Filter rows for this answer
     d = df_plot[df_plot["answer"] == answer_value].copy()
 
+    # get the number of respondent for each group class for labelling later
+    n1 = d[d['company_size_class'] == 'GU']['n'].tolist()
+    n2 = d[d['company_size_class'] == 'KMU']['n'].tolist()
+
     # 2) Get base N per group from column "total"
     # (assumes total is constant within each company_size_class)
     n_map = d.groupby("company_size_class")["total"].first().to_dict()
@@ -73,6 +77,7 @@ def plot_grouped_pct_prepared(
     ax.set_yticks(y)
     ax.tick_params(labelsize=cfg.FONT_TICK)
     ax.set_yticklabels(wrapped)
+
     ax.set_xlabel("Anteil der Teilnehmer in %")
     #ax.set_title(title, fontsize=cfg.FONT_TITLE)
 
@@ -81,11 +86,26 @@ def plot_grouped_pct_prepared(
     ax.set_xticks([0,25, 50,75, 100])
     ax.xaxis.set_major_formatter(mtick.PercentFormatter(xmax=100, decimals=cfg.AXIS_PCT_DECIMALS))
 
-    # 9) Value labels at bar end
+    # Labels für GU (v1 = pct, n1 = Teilnehmeranzahl)
     for i, v in enumerate(v1):
-        ax.text(min(v + 1.0, 100), y[i] - off, f"{v:.0f}%", va="center", fontsize=cfg.FONT_BAR_LABEL)
+        # n-Label: Ganz links (bei x=1), weißer Text auf dem Balken
+        ax.text(1.0, y[i] - off, f"n={n1[i]}", va="center", ha="left",
+                 fontsize=cfg.FONT_LEGEND_SIZE,color = "white")
+
+        # pct-Label: Am Ende des Balkens
+        ax.text(min(v + 1, 100), y[i] - off, f"{v:.0f}%",
+                va="center", ha="left", fontsize=cfg.FONT_BAR_LABEL)
+
+    # Labels für KMU (v2 = pct, n2 = Teilnehmeranzahl)
     for i, v in enumerate(v2):
-        ax.text(min(v + 1.0, 100), y[i] + off, f"{v:.0f}%", va="center", fontsize=cfg.FONT_BAR_LABEL)
+        # n-Label: Ganz links
+        ax.text(1.0, y[i] + off, f"n={n2[i]}", va="center", ha="left",
+                 fontsize=cfg.FONT_LEGEND_SIZE, color = "white")
+
+        # pct-Label: Am Ende des Balkens
+        ax.text(min(v + 1, 100), y[i] + off, f"{v:.0f}%",
+                va="center", ha="left", fontsize=cfg.FONT_BAR_LABEL)
+
 
     # 10) Grid + legend
     ax.grid(axis="x", alpha=0.25)
@@ -94,8 +114,5 @@ def plot_grouped_pct_prepared(
 
     # match your examples: first category at top
     ax.invert_yaxis()
-
-    # avoid label cut
-    fig.subplots_adjust(left=0.50)
 
     return fig

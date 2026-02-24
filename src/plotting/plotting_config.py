@@ -14,7 +14,7 @@ import matplotlib as mpl
 # Input config
 #--------------------
 
-EXCEL_PATH = Path("new_survey_result.xlsx")
+EXCEL_PATH = Path("final_survey_results.xlsx")
 FIRST_QUESTION_TEXT = "Welcher Art von Organisation gehören Sie an?"
 SPEC_PATH = Path("question_spec.json")
 
@@ -45,7 +45,7 @@ SAVE_PAD_INCHES = 0.0
 # Figure sizes (consistent)
 # -----------------------------
 
-FIGSIZE = (13.0, 9.0)
+FIGSIZE = (13.0, 11.0)
 
 # fixed axes box (relative to figure)
 AX_BOX_WIDTH = 0.50

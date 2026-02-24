@@ -34,8 +34,8 @@ def compute_zustimmung_summary(
     df_q = df_q[df_q["answer"].isin(VALID_ANSWERS_YN)].copy()
 
     # 4) Denominator per item+class (valid respondents)
-    denom = (
-        df_q.groupby(["item", "company_size_class"])[COL_ID]
+    totals = (
+        gu_kmu.groupby(["company_size_class"])[COL_ID]
             .nunique()
             .rename("total")
             .reset_index()
@@ -66,11 +66,9 @@ def compute_zustimmung_summary(
            .reset_index()
     )
 
-    out = out.merge(denom, on=["item","company_size_class"], how = "left")
-
+    out = out.merge(totals, on="company_size_class", how="left")
+    out["pct"] = (out["n"] / out["total"]) * 100.0
     out["n"] = out["n"].fillna(0).astype(int)
-    out["total"] = out["total"].fillna(0).astype(int)
-    out["pct"] = out.apply(lambda r: (r["n"] / r["total"] * 100.0) if r["total"] > 0 else 0.0, axis=1)
 
     out = finalize_matrix_output(
         out,

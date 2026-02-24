@@ -1,7 +1,7 @@
-Run started: 2026-02-24 00:09:14
+Run started: 2026-02-24 15:24:00
 Log file: /Users/buayaguruun21/PycharmProjects/Visualisierung_Umfrage/plotting_output/plotting_output/run_log.txt
 ------------------------------------------------------------------------------------------
-Excel: /Users/buayaguruun21/PycharmProjects/Visualisierung_Umfrage/new_survey_result.xlsx
+Excel: /Users/buayaguruun21/PycharmProjects/Visualisierung_Umfrage/final_survey_results.xlsx
 Spec:  /Users/buayaguruun21/PycharmProjects/Visualisierung_Umfrage/question_spec.json
 Output:/Users/buayaguruun21/PycharmProjects/Visualisierung_Umfrage/plotting_output/plotting_output
 Catalog entries: 43
@@ -37,28 +37,3 @@ Catalog entries: 43
 [OK]          | Abbildung 28 | type=matrix | plot=donut | saved=9 | 28a_Welche_der_nachfolgenden_Nutzenpotenziale_erachten_Sie_als_e__Entwicklung_neuer_Geschäftsmodelle_durch_Erschließung_neuer_.png
 [SKIP text]   | Abbildung 29 | Weiteres Nutzenpotenzial:
 [OK]          | Abbildung 30 | type=single | plot= | saved=1 | 30_Welche_Erfahrungen_hat_Ihr_Unternehmen_mit_der_Zahlungsberei.png
-[OK]          | Abbildung 31 | type=matrix | plot=donut | saved=8 | 31a_Welche_der_nachfolgenden_Industrie_4_0_-_Technologien_generi__Traceability_-_Technologien_z__B__RFID__Barcode__QR_-_Code_.png
-[OK]          | Abbildung 32 | type=single | plot= | saved=1 | 32_In_welchen_Lebenszyklusphasen_bzw__Elementen_des_zirkulären_.png
-[OK]          | Abbildung 33 | type=single | plot= | saved=1 | 33_Welche_konkreten_Mehrwerte_versprechen_Sie_sich_durch_den_Ei.png
-[OK]          | Abbildung 34 | type=matrix | plot=donut | saved=16 | 34a_In_welchem_Maß_stellen_die_folgenden_Punkte_ein_Hemmnis_für___Daten_aus_der_Lieferkette__Kunden__Lieferanten__nur_schwer_z.png
-[OK]          | Abbildung 35 | type=matrix | plot=donut | saved=10 | 35a_Inwieweit_stimmen_Sie_folgenden_Aussagen_zur_Umsetzung_von_K___Die_Einführung_von_Rücknahme_-___Recycling_-_und_Nachweissy.png
-[OK]          | Abbildung 36 | type=matrix | plot=donut | saved=9 | 36a_In_welchen_Lebenszyklusphasen_bzw__Elementen_des_zirkulären___Aufbereitung__amp__Verwertung.png
-[OK]          | Abbildung 37 | type=single | plot= | saved=1 | 37_Haben_Sie_Interesse__an_öffentlich_geförderten_Forschungspro.png
-[OK]          | Abbildung 38 | type=checkbox | plot= | saved=1 | 38_Bitte_spezifizieren_Sie_den_oder_die_Fördermittelträger_des_.png
-[OK]          | Abbildung 39 | type=checkbox | plot= | saved=1 | 39_In_welchen_Bereichen_sehen_Sie_Verbesserungspotenzial_bei_öf.png
-[OK]          | Abbildung 40 | type=matrix | plot=donut | saved=10 | 40a_Wie_bewerten_Sie_die_Wirksamkeit_der_folgenden_öffentlichen___Aufbereitung_von_Best_Practices.png
-[OK]          | Abbildung 41 | type=single | plot=donut | saved=1 | 41_Haben_Sie_Interesse_an_einem_weiterführenden_Gespräch_teilzu.png
-[OK]          | Abbildung 42 | type=single | plot= | saved=1 | 42_Haben_Sie_Interesse_an_den_Ergebnissen_dieser_Studie__In_die.png
-[OK]          | Abbildung 43 | type=single | plot= | saved=1 | 43_Geben_Sie_bitte_Ihre_E_-_Mail_-_Adresse_an__damit_wir_Sie_er.png
-
-=== PLOTTING HYPOTHESES ===
-[OK] Wrote list_of_figures.txt (43 lines)
-
-=== SUMMARY ===
-Questions OK:      39
-Questions skipped: 4
-Questions failed:  0
-Saved plot files:  117
-Output folder:     /Users/buayaguruun21/PycharmProjects/Visualisierung_Umfrage/plotting_output/plotting_output
-------------------------------------------------------------------------------------------
-Run finished: 2026-02-24 00:09:37

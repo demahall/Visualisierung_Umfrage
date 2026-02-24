@@ -23,13 +23,10 @@ def plot_grouped_likert_means(
     """
 
     d = df_plot[df_plot["question_text"] == question_texts].copy()
-    required = {"item", "company_size_class", "value", "n_total"}
-    missing = required - set(d.columns)
-    if missing:
-        raise ValueError(f"df_plot missing columns: {missing}")
 
-    if title is None:
-        title = question_texts
+    # get the number of respondent for each group class for labelling later
+    n1 = d[d['company_size_class'] == 'GU']['n_valid'].tolist()
+    n2 = d[d['company_size_class'] == 'KMU']['n_valid'].tolist()
 
     # n_total per group (constant)
     n_map = d.groupby("company_size_class")["n_total"].first().to_dict()
@@ -63,33 +60,45 @@ def plot_grouped_likert_means(
 
     y = np.arange(len(labels))
     h = cfg.HBAR_BAR_HEIGHT
-    off = h / 2.0
+    off = h/2
 
 
     ax.barh(y - off, v1, height=h, color=cfg.PALETTE[0], label=legend_label(group_order[1]))
     ax.barh(y + off, v2, height=h, color=cfg.PALETTE[1], label=legend_label(group_order[0]))
     ax.legend(fontsize=cfg.FONT_LEGEND_SIZE)
 
-    ax.tick_params(labelsize=cfg.FONT_TICK)
+
     ax.set_yticks(y)
+    ax.tick_params(labelsize=cfg.FONT_TICK)
     ax.set_yticklabels(wrapped)
 
     ax.set_xlim(*xlim)
     ax.set_xticks(list(xticks))
     #ax.set_title(title, fontsize=cfg.FONT_TITLE)
 
-    # value labels
+    # Labels für GU (v1 = pct, n1 = Teilnehmeranzahl)
     for i, v in enumerate(v1):
-        ax.text(v + 0.05, y[i] - off, f"{v:.1f}".replace(".", ","), va="center", fontsize=cfg.FONT_BAR_LABEL)
+        # n-Label: Ganz links (bei x=1), weißer Text auf dem Balken
+        ax.text(1, y[i] - off, f"n={n1[i]}", va="center", ha="left",
+                fontsize=cfg.FONT_LEGEND_SIZE,color = "white")
+
+        ax.text(v +0.05, y[i] - off, f"{v:.1f}".replace(".", ","),
+                va="center", fontsize=cfg.FONT_LEGEND_SIZE)
+
+    # Labels für KMU (v2 = pct, n2 = Teilnehmeranzahl)
     for i, v in enumerate(v2):
-        ax.text(v + 0.05, y[i] + off, f"{v:.1f}".replace(".", ","), va="center", fontsize=cfg.FONT_BAR_LABEL)
+        # n-Label: Ganz links
+        ax.text(1, y[i] + off, f"n={n2[i]}", va="center", ha="left",
+                fontsize=cfg.FONT_LEGEND_SIZE, color = "white")
+
+        ax.text(v +0.05, y[i] + off, f"{v:.1f}".replace(".", ","),
+                va="center", fontsize=cfg.FONT_LEGEND_SIZE)
+
 
     ax.grid(axis="x", alpha=0.25)
     ax.set_axisbelow(True)
     ax.legend(loc="lower center", bbox_to_anchor=(0.5, -0.18), ncol=2, fontsize=cfg.FONT_LEGEND_SIZE)
 
     ax.invert_yaxis()
-
-    fig.text(0.5, cfg.CAPTION_Y + 0.1, footnote_text, ha="center", va="bottom", fontsize=cfg.FONT_LEGEND_SIZE)
 
     return fig

@@ -94,7 +94,6 @@ def plot_diverging(
         fontsize=cfg.FONT_LEGEND_SIZE,
     )
 
-    plt.show()
 
     return fig
 
@@ -196,12 +195,9 @@ def plot_netzdiagramm(
     ax.set_yticklabels([str(v) for v in range(0, rmax + 1, r_step)])
 
     ax.tick_params(labelsize=cfg.FONT_LEGEND_SIZE)
-    ax.legend(fontsize=cfg.FONT_LEGEND_SIZE)
 
     for a, v in zip(angles, values):
         ax.text(a, v +2, f"{int(v)}", ha="center", va="center", fontsize=10)
-
-    plt.show()
 
     return fig
 
